@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Task01._2
 {
-    // example 3x3
     internal class SquareMatrix<T>
     {
         private int _matrixSize;
@@ -49,5 +48,38 @@ namespace Task01._2
                 SquareMatrixElements [row * _matrixSize + column] = value;
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder sparseMatrix = new StringBuilder();
+
+            int newLineCount = 0;
+
+            foreach (var item in SquareMatrixElements)
+            {
+                if (newLineCount < _matrixSize)
+                {
+                    sparseMatrix.Append(item).Append('\t');
+                    newLineCount++;
+
+                    if (newLineCount == _matrixSize)
+                    {
+                        newLineCount = 0;
+                        sparseMatrix.Append('\n');
+                    }
+                }
+            }
+            return sparseMatrix.ToString();
+        }
+        /*
+        public override string? ToString()
+        {
+            StringBuilder squareMatrixString = new StringBuilder();
+            foreach (var item in SquareMatrixElements)
+            {
+                squareMatrixString.Append(item).Append('\t');
+            }
+            return ;
+        }*/
     }
 }
