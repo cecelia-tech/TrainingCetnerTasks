@@ -8,8 +8,9 @@ namespace Task01._1
 {
     abstract class TrainingElement
     {
-        public Guid UniqueIdentifier { get; internal set; }
         private string description;
+        public Guid UniqueIdentifier { get; internal set; }
+        
 
         protected TrainingElement(string description)
         {

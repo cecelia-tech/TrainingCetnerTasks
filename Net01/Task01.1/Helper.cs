@@ -11,7 +11,6 @@ namespace Task01._1
         public static Guid GenerateUniqueIdentifier(this TrainingElement trainingLesson)
         {
             return trainingLesson.UniqueIdentifier = Guid.NewGuid();
-            //return Guid.NewGuid();
         }
     }
 }

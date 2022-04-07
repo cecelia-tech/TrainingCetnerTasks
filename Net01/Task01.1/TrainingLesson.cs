@@ -65,10 +65,7 @@ namespace Task01._1
 
                 StringBuilder videoMaterialVersion = new StringBuilder();
                 videoMaterialVersion.Append(version[0]).Append(".").Append(version[1]);
-                //foreach (var item in version)
-                //{
-                //    videoMaterialVersion.Append(item);
-                //}
+                
                 return videoMaterialVersion.ToString();
             }
             set
