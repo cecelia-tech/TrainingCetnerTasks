@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Task01._2
 {
-    //diagonal matrix is a square matrix in which the elements outside the main
-    //diagonal have default values of the element type
-    internal class DiagonalMatrix<T>
+    internal class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        //this is a delegate, which defines that the method is void and takes object and StoredValues as argument
-        //we have object here because the EventHandler requires it, so we don't need to change it
-        public delegate void DelegateForEvent(object obj, StoredValues<T> val);
-        //this event will subscribe to the methods
+        /// <summary>
+        /// Delegate for the event
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="values"></param>
+        public delegate void DelegateForEvent(object obj, StoredValues<T> values);
+        
         public event DelegateForEvent EventWithDelegate;
 
 
@@ -22,7 +23,7 @@ namespace Task01._2
 
         public int Size { get; private set; }
         private T[] diagonalElements;
-        public DiagonalMatrix(int size)
+        public DiagonalMatrix(int size) : base (size)
         {
             if (size <= 0)
             {

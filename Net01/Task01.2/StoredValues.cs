@@ -18,9 +18,5 @@ namespace Task01._2
             OldValue = oldValue;
             NewValue = newValue;
         }
-
-
-
-
     }
 }
