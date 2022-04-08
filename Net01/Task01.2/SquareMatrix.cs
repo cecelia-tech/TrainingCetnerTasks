@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,22 +7,11 @@ using System.Threading.Tasks;
 
 namespace Task01._2
 {
-    internal class SquareMatrix<T>
+    internal class SquareMatrix<T> : IEnumerable<T>
     {
         private int _matrixSize;
-        public T[] SquareMatrixElements;
+        private T[] _squareMatrixElements;
 
-        /// <summary>
-        /// Delegate for the event
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="values"></param>
-        /*public delegate void DelegateForEvent(object obj, StoredValues<T> values);
-
-        public event DelegateForEvent EventWithDelegate;
-        */
-
-        //simple eventHandler
         public event EventHandler<StoredValues<T>> ChangedElements;
         public SquareMatrix(int size)
         {
@@ -31,18 +21,17 @@ namespace Task01._2
             }
 
             _matrixSize = size;
-            SquareMatrixElements = new T [size * size];
+            _squareMatrixElements = new T [size * size];
 
             ChangedElements += Anouncement;
-            ChangedElements += delegate (object obj, StoredValues<T> values)
+            ChangedElements += delegate (object? obj, StoredValues<T> values)
             {
-                Console.WriteLine("Subscribing to the anonimous");
+                Console.WriteLine($"2 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}");
             };
-            ChangedElements += (object obj, StoredValues<T> val) => { Console.WriteLine("Subscribing to the lambda"); };
-
+            ChangedElements += (object? obj, StoredValues<T> values) => { Console.WriteLine($"3 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}"); };
         }
 
-        public T this[int row, int column]
+        public virtual T this[int row, int column]
         {
             get
             {
@@ -54,7 +43,7 @@ namespace Task01._2
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-                return SquareMatrixElements [row * _matrixSize + column];
+                return _squareMatrixElements [row * _matrixSize + column];
             }
             set
             {
@@ -66,36 +55,26 @@ namespace Task01._2
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-                if (!SquareMatrixElements[row * _matrixSize + column].Equals(value))
+                if (!_squareMatrixElements[row * _matrixSize + column].Equals(value))
                 {
-                    T oldValue = SquareMatrixElements[row * _matrixSize + column];
-                    SquareMatrixElements[row * _matrixSize + column] = value;
-                    //subscribes to the event with defined delegate
-                    //EventWithDelegate += Anouncement;
-                    //subscribing to the event with the anonimous method
-                    //EventWithDelegate += delegate (object obj, StoredValues<T> values)
-                    //{
-                    //    Console.WriteLine("Subscribing to the anonimous");
-                    //};
-                    //EventWithDelegate += (object obj, StoredValues<T> val) => { Console.WriteLine("Subscribing to the lambda"); };
-                    //subscribes to the event described with event handler
-                    
-                    //invokes delegate described event
-                    //EventWithDelegate?.Invoke(this, new StoredValues<T>(row, oldValue, value));
-                    //invokes eventArgs described delegate
-                    ChangedElements?.Invoke(this, new StoredValues<T>(row, oldValue, value));
-                    
+                    T oldValue = _squareMatrixElements[row * _matrixSize + column];
+                    _squareMatrixElements[row * _matrixSize + column] = value;
+                    InvokeEvent(row, column, oldValue, value);
                 }
             }
         }
 
+        protected void InvokeEvent(int row, int column, T oldvalue, T value)
+        {
+            ChangedElements?.Invoke(this, new StoredValues<T>(row, column, oldvalue, value));
+        }
         public override string ToString()
         {
             StringBuilder sparseMatrix = new StringBuilder();
 
             int newLineCount = 0;
 
-            foreach (var item in SquareMatrixElements)
+            foreach (var item in this)
             {
                 if (newLineCount < _matrixSize)
                 {
@@ -111,9 +90,25 @@ namespace Task01._2
             }
             return sparseMatrix.ToString();
         }
-        public void Anouncement(object sender, StoredValues<T> values)
+        public void Anouncement(object? sender, StoredValues<T> values)
         {
-            Console.WriteLine($"Element at [{values.Index}, {values.Index}] has been changed from {values.OldValue} to {values.NewValue}");
+            Console.WriteLine($"1 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}");
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (int i = 0; i < _matrixSize; i++)
+            {
+                for (int j = 0; j < _matrixSize; j++)
+                {
+                    yield return this[j, i];
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }
