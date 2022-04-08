@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Task01._2
 {
     /// <summary>
-    /// Asigns matrix values, 
+    /// Stores and asigns numeric matrix values, 
     /// rises events when the new element is not the same as the previous.
     /// <item>
     /// <term>_matrixSize</term>
@@ -34,11 +31,11 @@ namespace Task01._2
         public event EventHandler<StoredValues<T>> ChangedElements;
 
         /// <summary>
-        /// Initiates the array to store martix's values,
-        /// subscribes to the events
+        /// Initiates the array to store martix values,
+        /// subscribes to the events.
         /// </summary>
         /// <param name="size">The size of the matrix</param>
-        /// <exception cref="ArgumentException">If size value passed is negative or equal zero</exception>
+        /// <exception cref="ArgumentException">If size value passed is negative or equal to zero</exception>
         public SquareMatrix(int size)
         {
             if (size <= 0)
@@ -88,8 +85,7 @@ namespace Task01._2
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-
-                if (_squareMatrixElements[row * _matrixSize + column] is null || !(_squareMatrixElements[row * _matrixSize + column])!.Equals(value))
+                if (!(_squareMatrixElements[row * _matrixSize + column])!.Equals(value))
                 {
                     T oldValue = _squareMatrixElements[row * _matrixSize + column];
                     _squareMatrixElements[row * _matrixSize + column] = value;
