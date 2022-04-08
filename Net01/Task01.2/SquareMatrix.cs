@@ -66,15 +66,14 @@ namespace Task01._2
         {
             get
             {
-                CheckIndexerValues(row, column);
+                CheckValues(row, column);
 
                 return _elements[row * _size + column];
             }
             set
             {
-                CheckIndexerValues(row, column);
+                CheckValues(row, column);
 
-                //galimai i metoda
                 if (!(_elements[row * _size + column])!.Equals(value))
                 {
                     T oldValue = _elements[row * _size + column];
@@ -91,7 +90,7 @@ namespace Task01._2
         /// <param name="row">On which row the element is</param>
         /// <param name="column">On which column the element is</param>
         /// <exception cref="IndexOutOfRangeException">If indices are incorrect</exception>
-        protected void CheckIndexerValues(int row, int column)
+        protected void CheckValues(int row, int column)
         {
             if (row < 0 ||
                     column < 0 ||
@@ -139,6 +138,23 @@ namespace Task01._2
             }
         }
 
+        //kad duotu array
+        public IEnumerable<IEnumerable<T>> GetArrayOfElements()
+        {
+            for (int i = 0; i < _size; i++)
+            {
+                yield return GetRowElements(i);
+            }
+        }
+
+        public IEnumerable<T> GetRowElements(int row)
+        {
+            for (int j = 0; j < _size; j++)
+            {
+                yield return this[row, j];
+            }
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
@@ -158,25 +174,15 @@ namespace Task01._2
         /// <returns>Matrix represented as a string</returns>
         public override string ToString()
         {
-            StringBuilder sparseMatrix = new StringBuilder();
-
-            int newLineCount = 0;
-
-            foreach (var item in this)
+            StringBuilder matrix = new StringBuilder();
+           
+            foreach (var row in GetArrayOfElements())
             {
-                if (newLineCount < _size)
-                {
-                    sparseMatrix.Append(item).Append('\t');
-                    newLineCount++;
-
-                    if (newLineCount == _size)
-                    {
-                        newLineCount = 0;
-                        sparseMatrix.Append('\n');
-                    }
-                }
+                string rowOfElements = string.Join('\t', row);
+                matrix.Append(rowOfElements).Append('\n');
             }
-            return sparseMatrix.ToString();
+
+            return matrix.ToString();
         }
     }
 }

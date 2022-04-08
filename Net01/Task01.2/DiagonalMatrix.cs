@@ -32,13 +32,13 @@ namespace Task01._2
         {
             get
             {
-                CheckIndexerValues(row, column);
+                CheckValues(row, column);
 
                 return row == column ? (_elements[row])! : (default)!;
             }
             set
             {
-                CheckIndexerValues(row, column);
+                CheckValues(row, column);
 
                 if (row == column)
                 {
