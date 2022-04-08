@@ -59,6 +59,7 @@ namespace Task01._2
                 {
                     T oldValue = _squareMatrixElements[row * _matrixSize + column];
                     _squareMatrixElements[row * _matrixSize + column] = value;
+
                     InvokeEvent(row, column, oldValue, value);
                 }
             }

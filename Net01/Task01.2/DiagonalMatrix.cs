@@ -58,43 +58,10 @@ namespace Task01._2
                 {
                     T oldValue = diagonalElements[row];
                     diagonalElements[row] = value;
+
                     InvokeEvent(row, column, oldValue, value);
                 }
             }
         }
-
-        public override string ToString()
-        {
-            StringBuilder sparseMatrix = new StringBuilder();
-
-            int newLineCount = 0;
-
-            foreach (var item in this)
-            {
-                if (newLineCount < Size)
-                {
-                    sparseMatrix.Append(item).Append('\t');
-                    newLineCount++;
-
-                    if (newLineCount == Size)
-                    {
-                        newLineCount = 0;
-                        sparseMatrix.Append('\n');
-                    }
-                }
-            }
-            return sparseMatrix.ToString();
-        }
-        /// <summary>
-        /// Method is used when invoking the event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="values">Values consists of indexes(Index) of an element in the diagonal matrix, 
-        /// an old value (OldValue) and a new value (NewValue). 
-        ///</param>
-        /*public void Anouncement(object sender, StoredValues<T> values)
-        {
-            Console.WriteLine($"Element at [{values.Row}, {values.Row}] has been changed from {values.OldValue} to {values.NewValue}");
-        }*/
     }
 }
