@@ -8,7 +8,6 @@ namespace Task01._2
 {
     internal class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        public int Size { get; private set; }
         private T[] diagonalElements;
         public DiagonalMatrix(int size) : base (size)
         {
@@ -16,7 +15,7 @@ namespace Task01._2
             {
                 throw new ArgumentException("Size has to be positive and greater than zero integer");
             }
-            this.Size = size;
+
             diagonalElements = new T[size];
         }
 
@@ -36,8 +35,8 @@ namespace Task01._2
             {
                 if (row < 0 ||
                     column < 0 ||
-                    row >= Size ||
-                    column >= Size)
+                    row >= _matrixSize ||
+                    column >= _matrixSize)
                 {
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
@@ -48,18 +47,21 @@ namespace Task01._2
             {
                 if (row < 0 ||
                     column < 0 ||
-                    row >= Size ||
-                    column >= Size)
+                    row >= _matrixSize ||
+                    column >= _matrixSize)
                 {
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
                 if (row == column)
                 {
-                    T oldValue = diagonalElements[row];
-                    diagonalElements[row] = value;
+                    if (!diagonalElements[row].Equals(value))
+                    {
+                        T oldValue = diagonalElements[row];
+                        diagonalElements[row] = value;
 
-                    InvokeEvent(row, column, oldValue, value);
+                        InvokeEvent(row, column, oldValue, value);
+                    }
                 }
             }
         }

@@ -9,7 +9,7 @@ namespace Task01._2
 {
     internal class SquareMatrix<T> : IEnumerable<T>
     {
-        private int _matrixSize;
+        protected int _matrixSize;
         private T[] _squareMatrixElements;
 
         public event EventHandler<StoredValues<T>> ChangedElements;
@@ -69,6 +69,28 @@ namespace Task01._2
         {
             ChangedElements?.Invoke(this, new StoredValues<T>(row, column, oldvalue, value));
         }
+        
+        public void Anouncement(object? sender, StoredValues<T> values)
+        {
+            Console.WriteLine($"1 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}");
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (int i = 0; i < _matrixSize; i++)
+            {
+                for (int j = 0; j < _matrixSize; j++)
+                {
+                    yield return this[j, i];
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
         public override string ToString()
         {
             StringBuilder sparseMatrix = new StringBuilder();
@@ -90,26 +112,6 @@ namespace Task01._2
                 }
             }
             return sparseMatrix.ToString();
-        }
-        public void Anouncement(object? sender, StoredValues<T> values)
-        {
-            Console.WriteLine($"1 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}");
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            for (int i = 0; i < _matrixSize; i++)
-            {
-                for (int j = 0; j < _matrixSize; j++)
-                {
-                    yield return this[j, i];
-                }
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
     }
 }
