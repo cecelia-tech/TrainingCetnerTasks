@@ -6,9 +6,19 @@ using System.Threading.Tasks;
 
 namespace Task01._2
 {
+    /// <summary>
+    /// Stores diagonal matrix values and allows access to them.
+    /// Rises an event if a new elements' value is different from the old one.
+    /// <item>
+    /// <term>_diagonalElements</term>
+    /// <description>Stores matrix values which are only on the diagonal.</description>
+    /// </item>
+    /// </summary>
     internal class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        private T[] diagonalElements;
+        private T[] _diagonalElements;
+
+        ///<inheritdoc/>
         public DiagonalMatrix(int size) : base (size)
         {
             if (size <= 0)
@@ -16,19 +26,10 @@ namespace Task01._2
                 throw new ArgumentException("Size has to be positive and greater than zero integer");
             }
 
-            diagonalElements = new T[size];
+            _diagonalElements = new T[size];
         }
 
-        /// <summary>
-        /// Indexer gets values of the diagonal matrix and sets it according to the restrictions. 
-        /// Also rises an event in case the old value is different from the new
-        /// </summary>
-        /// <param name="row">Element direction in the row</param>
-        /// <param name="column">Element direction in the column</param>
-        /// <returns>Element of coresponding directions</returns>
-        /// <exception cref="IndexOutOfRangeException">Exception is thrown when trying to access the element
-        /// with negative indexers or biger than the size of the matrix
-        /// </exception>
+        ///<inheritdoc/>
         public override T this[int row, int column]
         {
             get
@@ -41,7 +42,7 @@ namespace Task01._2
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-                return row == column ? diagonalElements[row] : default;
+                return row == column ? _diagonalElements[row] : default;
             }
             set
             {
@@ -55,10 +56,10 @@ namespace Task01._2
 
                 if (row == column)
                 {
-                    if (!diagonalElements[row].Equals(value))
+                    if (!_diagonalElements[row].Equals(value))
                     {
-                        T oldValue = diagonalElements[row];
-                        diagonalElements[row] = value;
+                        T oldValue = _diagonalElements[row];
+                        _diagonalElements[row] = value;
 
                         InvokeEvent(row, column, oldValue, value);
                     }

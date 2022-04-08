@@ -7,6 +7,7 @@ Console.WriteLine(shortDiagonalMatrix.ToString());
 
 shortDiagonalMatrix[1, 1] = 5;
 shortDiagonalMatrix[1, 1] = 5;
+shortDiagonalMatrix[0, 2] = 4;
 
 Console.WriteLine(shortDiagonalMatrix.ToString());
 
