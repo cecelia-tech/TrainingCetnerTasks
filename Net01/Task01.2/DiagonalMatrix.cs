@@ -16,19 +16,24 @@ namespace Task01._2
     /// </summary>
     internal class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        private T[] _diagonalElements;
+        
 
         ///<inheritdoc/>
-        public DiagonalMatrix(int size) : base (size)
+        public DiagonalMatrix(int size) : base ()
         {
             if (size <= 0)
             {
                 throw new ArgumentException("Size has to be positive and greater than zero integer");
             }
-
-            _diagonalElements = new T[size];
+            _size = size;
+            _elements = new T[size];
+            //InstattiateArray(size);
         }
 
+        /*protected override void InstattiateArray(int size)
+        {
+            _diagonalElements = new T[size * size];
+        }*/
         ///<inheritdoc/>
         public override T this[int row, int column]
         {
@@ -36,30 +41,30 @@ namespace Task01._2
             {
                 if (row < 0 ||
                     column < 0 ||
-                    row >= _matrixSize ||
-                    column >= _matrixSize)
+                    row >= _size ||
+                    column >= _size)
                 {
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-                return row == column ? (_diagonalElements[row])! : (default)!;
+                return row == column ? (_elements[row])! : (default)!;
             }
             set
             {
                 if (row < 0 ||
                     column < 0 ||
-                    row >= _matrixSize ||
-                    column >= _matrixSize)
+                    row >= _size ||
+                    column >= _size)
                 {
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
                 if (row == column)
                 {
-                    if (!(_diagonalElements[row])!.Equals(value))
+                    if (!(_elements[row])!.Equals(value))
                     {
-                        T oldValue = _diagonalElements[row];
-                        _diagonalElements[row] = value;
+                        T oldValue = _elements[row];
+                        _elements[row] = value;
 
                         InvokeEvent(row, column, oldValue, value);
                     }

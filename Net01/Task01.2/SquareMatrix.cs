@@ -26,8 +26,8 @@ namespace Task01._2
     /// </summary>
     internal class SquareMatrix<T> : IEnumerable<T>
     {
-        protected int _matrixSize;
-        private T[] _squareMatrixElements;
+        protected int _size;
+        protected T[] _elements;
         public event EventHandler<StoredValues<T>> ChangedElements;
 
         /// <summary>
@@ -36,22 +36,32 @@ namespace Task01._2
         /// </summary>
         /// <param name="size">The size of the matrix</param>
         /// <exception cref="ArgumentException">If size value passed is negative or equal to zero</exception>
-        public SquareMatrix(int size)
+        public SquareMatrix(int size) : this ()
         {
             if (size <= 0)
             {
                 throw new ArgumentException("Matrix size has to be greater than 0");
             }
 
-            _matrixSize = size;
-            _squareMatrixElements = new T [size * size];
+            _size = size;
+            //InstattiateArray(size);
+            _elements = new T[size * size];
 
+            
+        }
+
+        protected SquareMatrix()
+        {
             ChangedElements += Anouncement;
             ChangedElements += delegate (object? obj, StoredValues<T> values)
             {
                 Console.WriteLine($"2 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}");
             };
             ChangedElements += (object? obj, StoredValues<T> values) => { Console.WriteLine($"3 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}"); };
+        }
+        protected virtual void InstattiateArray(int size)
+        {
+            _elements = new T[size * size];
         }
 
         /// <summary>
@@ -65,30 +75,33 @@ namespace Task01._2
         {
             get
             {
+                //i metoda
                 if (row < 0 ||
                     column < 0 ||
-                    row >= _matrixSize ||
-                    column >= _matrixSize)
+                    row >= _size ||
+                    column >= _size)
                 {
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-                return _squareMatrixElements [row * _matrixSize + column];
+                return _elements[row * _size + column];
             }
             set
             {
+                //i metoda
                 if (row < 0 ||
                     column < 0 ||
-                    row >= _matrixSize ||
-                    column >= _matrixSize)
+                    row >= _size ||
+                    column >= _size)
                 {
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-                if (!(_squareMatrixElements[row * _matrixSize + column])!.Equals(value))
+                //galimai i metoda
+                if (!(_elements[row * _size + column])!.Equals(value))
                 {
-                    T oldValue = _squareMatrixElements[row * _matrixSize + column];
-                    _squareMatrixElements[row * _matrixSize + column] = value;
+                    T oldValue = _elements[row * _size + column];
+                    _elements[row * _size + column] = value;
 
                     InvokeEvent(row, column, oldValue, value);
                 }
@@ -123,9 +136,9 @@ namespace Task01._2
         /// <returns>Elements of a square matrix</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < _matrixSize; i++)
+            for (int i = 0; i < _size; i++)
             {
-                for (int j = 0; j < _matrixSize; j++)
+                for (int j = 0; j < _size; j++)
                 {
                     yield return this[j, i];
                 }
@@ -157,12 +170,12 @@ namespace Task01._2
 
             foreach (var item in this)
             {
-                if (newLineCount < _matrixSize)
+                if (newLineCount < _size)
                 {
                     sparseMatrix.Append(item).Append('\t');
                     newLineCount++;
 
-                    if (newLineCount == _matrixSize)
+                    if (newLineCount == _size)
                     {
                         newLineCount = 0;
                         sparseMatrix.Append('\n');
