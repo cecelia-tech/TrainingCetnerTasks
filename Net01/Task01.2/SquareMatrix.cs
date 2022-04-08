@@ -44,10 +44,7 @@ namespace Task01._2
             }
 
             _size = size;
-            //InstattiateArray(size);
             _elements = new T[size * size];
-
-            
         }
 
         protected SquareMatrix()
@@ -59,43 +56,23 @@ namespace Task01._2
             };
             ChangedElements += (object? obj, StoredValues<T> values) => { Console.WriteLine($"3 Element at [{values.Row}, {values.Column}] has been changed from {values.OldValue} to {values.NewValue}"); };
         }
-        protected virtual void InstattiateArray(int size)
-        {
-            _elements = new T[size * size];
-        }
 
         /// <summary>
-        /// Allows the access and to modify the values of a matrix
+        /// Provides access and to modify the values of a matrix
         /// </summary>
-        /// <param name="row">On which row the element is</param>
-        /// <param name="column">On which column the element is</param>
         /// <returns>Element of a matrix at specified location</returns>
         /// <exception cref="IndexOutOfRangeException">If indices are incorrect</exception>
         public virtual T this[int row, int column]
         {
             get
             {
-                //i metoda
-                if (row < 0 ||
-                    column < 0 ||
-                    row >= _size ||
-                    column >= _size)
-                {
-                    throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
-                }
+                CheckIndexerValues(row, column);
 
                 return _elements[row * _size + column];
             }
             set
             {
-                //i metoda
-                if (row < 0 ||
-                    column < 0 ||
-                    row >= _size ||
-                    column >= _size)
-                {
-                    throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
-                }
+                CheckIndexerValues(row, column);
 
                 //galimai i metoda
                 if (!(_elements[row * _size + column])!.Equals(value))
@@ -105,6 +82,23 @@ namespace Task01._2
 
                     InvokeEvent(row, column, oldValue, value);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Checks if values are in rande required
+        /// </summary>
+        /// <param name="row">On which row the element is</param>
+        /// <param name="column">On which column the element is</param>
+        /// <exception cref="IndexOutOfRangeException">If indices are incorrect</exception>
+        protected void CheckIndexerValues(int row, int column)
+        {
+            if (row < 0 ||
+                    column < 0 ||
+                    row >= _size ||
+                    column >= _size)
+            {
+                throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
             }
         }
 

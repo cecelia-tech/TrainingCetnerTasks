@@ -16,8 +16,6 @@ namespace Task01._2
     /// </summary>
     internal class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        
-
         ///<inheritdoc/>
         public DiagonalMatrix(int size) : base ()
         {
@@ -27,37 +25,20 @@ namespace Task01._2
             }
             _size = size;
             _elements = new T[size];
-            //InstattiateArray(size);
         }
 
-        /*protected override void InstattiateArray(int size)
-        {
-            _diagonalElements = new T[size * size];
-        }*/
         ///<inheritdoc/>
         public override T this[int row, int column]
         {
             get
             {
-                if (row < 0 ||
-                    column < 0 ||
-                    row >= _size ||
-                    column >= _size)
-                {
-                    throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
-                }
+                CheckIndexerValues(row, column);
 
                 return row == column ? (_elements[row])! : (default)!;
             }
             set
             {
-                if (row < 0 ||
-                    column < 0 ||
-                    row >= _size ||
-                    column >= _size)
-                {
-                    throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
-                }
+                CheckIndexerValues(row, column);
 
                 if (row == column)
                 {
