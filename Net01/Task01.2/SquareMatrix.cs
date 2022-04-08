@@ -10,6 +10,19 @@ namespace Task01._2
     {
         private int _matrixSize;
         public T[] SquareMatrixElements;
+
+        /// <summary>
+        /// Delegate for the event
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="values"></param>
+        /*public delegate void DelegateForEvent(object obj, StoredValues<T> values);
+
+        public event DelegateForEvent EventWithDelegate;
+        */
+
+        //simple eventHandler
+        public event EventHandler<StoredValues<T>> ChangedElements;
         public SquareMatrix(int size)
         {
             if (size <= 0)
@@ -19,6 +32,14 @@ namespace Task01._2
 
             _matrixSize = size;
             SquareMatrixElements = new T [size * size];
+
+            ChangedElements += Anouncement;
+            ChangedElements += delegate (object obj, StoredValues<T> values)
+            {
+                Console.WriteLine("Subscribing to the anonimous");
+            };
+            ChangedElements += (object obj, StoredValues<T> val) => { Console.WriteLine("Subscribing to the lambda"); };
+
         }
 
         public T this[int row, int column]
@@ -45,7 +66,26 @@ namespace Task01._2
                     throw new IndexOutOfRangeException("Row and/or column can't be less than 0 or more or equal than the size of the array");
                 }
 
-                SquareMatrixElements [row * _matrixSize + column] = value;
+                if (!SquareMatrixElements[row * _matrixSize + column].Equals(value))
+                {
+                    T oldValue = SquareMatrixElements[row * _matrixSize + column];
+                    SquareMatrixElements[row * _matrixSize + column] = value;
+                    //subscribes to the event with defined delegate
+                    //EventWithDelegate += Anouncement;
+                    //subscribing to the event with the anonimous method
+                    //EventWithDelegate += delegate (object obj, StoredValues<T> values)
+                    //{
+                    //    Console.WriteLine("Subscribing to the anonimous");
+                    //};
+                    //EventWithDelegate += (object obj, StoredValues<T> val) => { Console.WriteLine("Subscribing to the lambda"); };
+                    //subscribes to the event described with event handler
+                    
+                    //invokes delegate described event
+                    //EventWithDelegate?.Invoke(this, new StoredValues<T>(row, oldValue, value));
+                    //invokes eventArgs described delegate
+                    ChangedElements?.Invoke(this, new StoredValues<T>(row, oldValue, value));
+                    
+                }
             }
         }
 
@@ -71,15 +111,9 @@ namespace Task01._2
             }
             return sparseMatrix.ToString();
         }
-        /*
-        public override string? ToString()
+        public void Anouncement(object sender, StoredValues<T> values)
         {
-            StringBuilder squareMatrixString = new StringBuilder();
-            foreach (var item in SquareMatrixElements)
-            {
-                squareMatrixString.Append(item).Append('\t');
-            }
-            return ;
-        }*/
+            Console.WriteLine($"Element at [{values.Index}, {values.Index}] has been changed from {values.OldValue} to {values.NewValue}");
+        }
     }
 }

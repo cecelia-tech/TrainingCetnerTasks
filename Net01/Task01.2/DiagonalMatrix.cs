@@ -8,18 +8,7 @@ namespace Task01._2
 {
     internal class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        /// <summary>
-        /// Delegate for the event
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="values"></param>
-        public delegate void DelegateForEvent(object obj, StoredValues<T> values);
         
-        public event DelegateForEvent EventWithDelegate;
-
-
-        //simple eventHandler
-        public event EventHandler<StoredValues<T>> ChangedElements;
 
         public int Size { get; private set; }
         private T[] diagonalElements;
@@ -69,25 +58,8 @@ namespace Task01._2
 
                 if (row == column)
                 {
-                    if (!diagonalElements[row].Equals(value))
-                    {
-                        T oldValue = diagonalElements[row];
-                        diagonalElements[row] = value;
-                        //subscribes to the event with defined delegate
-                        EventWithDelegate += Anouncement;
-                        //subscribing to the event with the anonimous method
-                        EventWithDelegate += delegate (object obj, StoredValues<T> values)
-                        {
-                            Console.WriteLine("Subscribing to the anonimous");
-                        };
-                        EventWithDelegate += (object obj, StoredValues<T> val) => { Console.WriteLine("Subscribing to the lambda"); };
-                        //subscribes to the event described with event handler
-                        ChangedElements += Anouncement;
-                        //invokes delegate described event
-                        EventWithDelegate?.Invoke(this, new StoredValues<T>(row, oldValue, value));
-                        //invokes eventArgs described delegate
-                        ChangedElements?.Invoke(this, new StoredValues<T>(row, oldValue, value));
-                    }
+                    diagonalElements[row] = value;
+                    
                 }
             }
         }
