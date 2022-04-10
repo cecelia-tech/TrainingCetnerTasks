@@ -3,7 +3,7 @@
 Console.WriteLine("Diagonal Matrix:");
 DiagonalMatrix<short> shortDiagonalMatrix = new DiagonalMatrix<short>(3);
 
-Console.WriteLine(shortDiagonalMatrix.ToString());
+//Console.WriteLine(shortDiagonalMatrix.ToString());
 
 shortDiagonalMatrix[1, 1] = 5;
 shortDiagonalMatrix[1, 1] = 5;
@@ -18,3 +18,8 @@ s[2, 2] = 6;
 s[2, 2] = 6;
 Console.WriteLine(s.ToString());
 */
+
+/*foreach (var item in shortDiagonalMatrix)
+{
+    Console.WriteLine(item);
+}*/

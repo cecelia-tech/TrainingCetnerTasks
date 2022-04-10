@@ -129,16 +129,15 @@ namespace Task01._2
         /// <returns>Elements of a square matrix</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < _size; i++)
+            foreach (var elementsArray in GetArrayOfElements())
             {
-                for (int j = 0; j < _size; j++)
+                foreach (var element in elementsArray)
                 {
-                    yield return this[j, i];
+                    yield return element;
                 }
             }
         }
 
-        //kad duotu array
         public IEnumerable<IEnumerable<T>> GetArrayOfElements()
         {
             for (int i = 0; i < _size; i++)
@@ -163,12 +162,8 @@ namespace Task01._2
         /// <summary>
         /// Custom implementation of ToString()
         /// <item>
-        /// <term>sparseMatrix</term>
+        /// <term>matrix</term>
         /// <description>Stores matrix elements in a string</description>
-        /// </item>
-        /// <item>
-        /// <term>newLineCount</term>
-        /// <description>Stores value after which a new line '\n' has to be inserted</description>
         /// </item>
         /// </summary>
         /// <returns>Matrix represented as a string</returns>
