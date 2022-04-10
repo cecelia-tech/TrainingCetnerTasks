@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Task02._1
 {
-    internal class Collection
+    internal class Catalog
     {
+        
+
+
     }
 }
