@@ -37,9 +37,10 @@ namespace Task02._1
             return obj is Book book &&
                    ISBN == book.ISBN;
         }
+
         public override int GetHashCode()
         {
-            return HashCode.Combine(ISBN);
+            return HashCode.Combine(Authors);
         }
     }
 }

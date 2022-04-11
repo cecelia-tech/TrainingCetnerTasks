@@ -11,17 +11,28 @@ catalog.AddBook(book2);
 catalog.AddBook(book3);
 
 //Console.WriteLine(catalog.GetBooksByAuthor("John", "Stevens"));
-foreach (var item in catalog.GetBooksSortedByDate())
+/*foreach (var item in catalog.GetBooksSortedByDate())
 {
     Console.WriteLine(item.PublicationDate);
-}
+}*/
 
-foreach (var item in catalog.GetBooksByAuthor("John", "Stevens"))
+foreach (var item in catalog.GetBooksByAuthor("Mat", "Green"))
+{ 
+    foreach (var item2 in item)
+    {
+        Console.WriteLine(item2);
+    }
+}
+//Console.WriteLine(catalog.GetNumberOfBooksByAuthor(new Author("Sam", "Richers")));
+foreach (var item in catalog.GetNumberOfBooksByAuthor(new Author("Mat", "Green")))
 {
-    Console.WriteLine(item.Title);
+    Console.WriteLine(item.Item1);
+    Console.WriteLine(item.Item2);
 }
 
 /*foreach (var item in catalog)
 {
     Console.WriteLine(item.Title);
 }*/
+
+//catalog.ArTuri(new Author("Mat", "Green"));

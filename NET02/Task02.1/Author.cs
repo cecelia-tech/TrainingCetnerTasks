@@ -36,7 +36,7 @@ namespace Task02._1
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(FirstName, LastName);
         }
     }
 }
