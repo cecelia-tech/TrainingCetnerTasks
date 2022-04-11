@@ -30,7 +30,7 @@ namespace Task02._1
             }
         }
 
-        public IEnumerable<IEnumerable< Book>> GetBooksByAuthor(string firstName, string lastName)
+        public IEnumerable<IEnumerable<Book>> GetBooksByAuthor(string firstName, string lastName)
         {
             /*foreach (var book in books)
             {
@@ -43,7 +43,8 @@ namespace Task02._1
                     
                 }
             }*/
-            yield return books.Where(book => book.Authors.Select(author => author.FirstName).ToString() == firstName && book.Authors.Select(author => author.LastName).ToString() == lastName).Select(book => book).ToList();
+            yield return books.FindAll(book => book.Authors.Contains(new Author(firstName, lastName)));
+            //yield return books.Where(book => book.Authors.Select(author => author.FirstName).ToString() == firstName && book.Authors.Select(author => author.LastName).ToString() == lastName).Select(book => book).ToList();
             //books.Where(book => book.Authors.Where(author => author.FirstName == firstName)); 
             //yield return books.Where(book => books.Where(book => book.Authors.Any(author => author.FirstName == firstName && author.LastName == lastName)));
             //books.Where(book => book.Authors.Where(author => author.FirstName == firstName && author.LastName == lastName)).Select(book => book);
@@ -59,13 +60,12 @@ namespace Task02._1
         //veikia!!!!
         public IEnumerable<Book> GetBooksSortedByDate()
         {
-            //IEnumerable<Book> orderedBooks = books.OrderByDescending(book => book.PublicationDate);
-
             foreach (var book in books.OrderByDescending(book => book.PublicationDate))
             {
                 yield return book;
             }
         }
+        //veikia!!!!!!
         public IEnumerable<(Author, int)> GetNumberOfBooksByAuthor(Author authorGiven)
         {
             yield return (authorGiven, books.FindAll(book => book.Authors.Contains(authorGiven)).Count());

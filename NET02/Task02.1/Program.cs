@@ -20,15 +20,15 @@ foreach (var item in catalog.GetBooksByAuthor("Mat", "Green"))
 { 
     foreach (var item2 in item)
     {
-        Console.WriteLine(item2);
+        Console.WriteLine(item2.Title);
     }
 }
 
-foreach (var item in catalog.GetNumberOfBooksByAuthor(new Author("John", "Stevens")))
+/*foreach (var item in catalog.GetNumberOfBooksByAuthor(new Author("John", "Stevens")))
 {
     Console.WriteLine($"{item.Item1.FirstName}, {item.Item1.LastName}");
     Console.WriteLine($"Number of books: {item.Item2}");
-}
+}*/
 
 /*foreach (var item in catalog)
 {
