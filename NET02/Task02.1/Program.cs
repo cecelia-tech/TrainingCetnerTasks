@@ -11,11 +11,17 @@ catalog.AddBook(book2);
 catalog.AddBook(book3);
 
 //Console.WriteLine(catalog.GetBooksByAuthor("John", "Stevens"));
+foreach (var item in catalog.GetBooksSortedByDate())
+{
+    Console.WriteLine(item.PublicationDate);
+}
+
 foreach (var item in catalog.GetBooksByAuthor("John", "Stevens"))
 {
     Console.WriteLine(item.Title);
 }
-foreach (var item in catalog)
+
+/*foreach (var item in catalog)
 {
     Console.WriteLine(item.Title);
-}
+}*/

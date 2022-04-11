@@ -27,5 +27,16 @@ namespace Task02._1
             LastName = lastName;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Author author &&
+                   FirstName == author.FirstName &&
+                   LastName == author.LastName;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

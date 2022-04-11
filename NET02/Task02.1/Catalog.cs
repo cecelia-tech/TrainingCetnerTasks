@@ -56,6 +56,7 @@ namespace Task02._1
             //yield return s;
         }
 
+        //veikia!!!!
         public IEnumerable<Book> GetBooksSortedByDate()
         {
             //IEnumerable<Book> orderedBooks = books.OrderByDescending(book => book.PublicationDate);
@@ -65,11 +66,13 @@ namespace Task02._1
                 yield return book;
             }
         }
-        /*public IEnumerable<(Author, int)> GetNumberOfBooksByAuthor(Author author)
+        public IEnumerable<(Author, int)> GetNumberOfBooksByAuthor(Author author)
         {
-            return books.GroupBy(book => author).Select(book => (book.Key.FirstName, book.Count)).ToList();
-        }*/
-        //veikia
+            books.FindAll(book => book.)
+            //return books.GroupBy(book => author).Select(book => (book.Key.FirstName, book.Count)).ToList();
+        }
+
+        //veikia!!!!!
         public IEnumerator<Book> GetEnumerator()
         {
             foreach (var book in books.OrderBy(x => x.Title))
