@@ -11,7 +11,7 @@ namespace Task02._1
         public string ISBN { get; private set; }
         public string Title { get; private set; }
         public DateTime? PublicationDate { get; private set; }
-        public HashSet<Author> Authors { get; } = new HashSet<Author>();
+        public HashSet<Author> Authors { get; private set; } = new HashSet<Author>();
 
         public Book(string iSBN, string title, DateTime? publicationDate, params Author[] authors)
         {
@@ -30,6 +30,16 @@ namespace Task02._1
                 Authors.Add(author);
             }
 
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Book book &&
+                   ISBN == book.ISBN;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ISBN);
         }
     }
 }
