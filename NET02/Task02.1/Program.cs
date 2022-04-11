@@ -23,11 +23,11 @@ foreach (var item in catalog.GetBooksByAuthor("Mat", "Green"))
         Console.WriteLine(item2);
     }
 }
-//Console.WriteLine(catalog.GetNumberOfBooksByAuthor(new Author("Sam", "Richers")));
-foreach (var item in catalog.GetNumberOfBooksByAuthor(new Author("Mat", "Green")))
+
+foreach (var item in catalog.GetNumberOfBooksByAuthor(new Author("John", "Stevens")))
 {
-    Console.WriteLine(item.Item1);
-    Console.WriteLine(item.Item2);
+    Console.WriteLine($"{item.Item1.FirstName}, {item.Item1.LastName}");
+    Console.WriteLine($"Number of books: {item.Item2}");
 }
 
 /*foreach (var item in catalog)

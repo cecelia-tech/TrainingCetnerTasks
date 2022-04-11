@@ -68,30 +68,9 @@ namespace Task02._1
         }
         public IEnumerable<(Author, int)> GetNumberOfBooksByAuthor(Author authorGiven)
         {
-            //return books.Where(book => book.Authors.Contains(authorGiven)).GroupBy(book => book.Title).Select(book => (authorGiven, book.Count()));
             yield return (authorGiven, books.FindAll(book => book.Authors.Contains(authorGiven)).Count());
-            //books.Contains(authorGiven)
-            //books.Where(book => book.Authors.Where(author => author.Equals(authorGiven))
-            //IEnumerable< (Author, int) > s = 
-            //yield return books.GroupBy(book => book.Authors).Where(book => book.Key.Contains(authorGiven)).Select(book => (authorGiven, book.Count()));
-            //return s;
-            // yield return books.Select(book => (authorGiven, book.Authors.Where(author => authorGiven.Equals(author)).Count())).ToList();
-            //return books.Select(book => (authorGiven, books.Select(book => book.Authors.Where(author => author.Equals(authorGiven))).Count())).ToList();
-            //return books.GroupBy(book => book.Authors.Equals(author)).Select(book => (book.Key, book.Count()));
-            //return books.SelectMany(book => (book.Authors.Equals(author), books.FindAll(book => book.Authors.Equals(author)).Count()));
-            //return books.Select(book => (books.FindAll(book => book.Authors.Equals(author)), books.FindAll(book => book.Authors.Equals(author)).Count()));
-            //books.FindAll(book => book.Authors.Equals(author));
-            //return books.GroupBy(book => author).Select(book => (book.Key.FirstName, book.Count)).ToList();
         }
-        /*public IEnumerable< Book> ArTuri(Author a)
-        {
-            books.GroupBy(book => )
-            foreach (var item in books.Where(book => book.Authors.Find(a)))
-            {
-                yield return item;
-            }
-            //yield return books.Where(book => book.Authors.Contains(a)); 
-        }*/
+
         //veikia!!!!!
         public IEnumerator<Book> GetEnumerator()
         {
