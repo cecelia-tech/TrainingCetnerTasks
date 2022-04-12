@@ -30,31 +30,10 @@ namespace Task02._1
             }
         }
 
+        //panasu, kad veikia!!!!!!
         public IEnumerable<IEnumerable<Book>> GetBooksByAuthor(string firstName, string lastName)
         {
-            /*foreach (var book in books)
-            {
-                foreach (var author in book.Authors)
-                {
-                    if (author.FirstName == firstName && author.LastName == lastName)
-                    {
-                        yield return book;
-                    }
-                    
-                }
-            }*/
             yield return books.FindAll(book => book.Authors.Contains(new Author(firstName, lastName)));
-            //yield return books.Where(book => book.Authors.Select(author => author.FirstName).ToString() == firstName && book.Authors.Select(author => author.LastName).ToString() == lastName).Select(book => book).ToList();
-            //books.Where(book => book.Authors.Where(author => author.FirstName == firstName)); 
-            //yield return books.Where(book => books.Where(book => book.Authors.Any(author => author.FirstName == firstName && author.LastName == lastName)));
-            //books.Where(book => book.Authors.Where(author => author.FirstName == firstName && author.LastName == lastName)).Select(book => book);
-            //var s = books.Where(book => books.Where(book2 => book2.Authors.Where(author => author.FirstName == author.FirstName && author.LastName == author.LastName)));
-            //books.Where(book => book.Authors.
-            //yield return books.Where(book => book.Authors.Where(author => author.FirstName == firstName && author.LastName == lastName)).;
-            //yield return books.Where(x => (x.Authors.Where(x => x.FirstName == firstName && x.LastName == lastName))).Select(book => book);
-            //books.Where(book => book.Authors.Select(x => x.FirstName == firstName && x.LastName == lastName)).Select(book => book);
-            //yield return books.FindAll(x => x.Authors.Select(x => x.FirstName == firstName && x.LastName == lastName))
-            //yield return s;
         }
 
         //veikia!!!!
