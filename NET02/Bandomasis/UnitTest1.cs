@@ -73,9 +73,6 @@ namespace Bandomasis
             catalog.AddBook(new Book("1234567890125", "Book2", new DateTime(2022, 04, 01), new Author("Sam", "Richers"), new Author("Mat", "Green")));
             catalog.AddBook(new Book("1234567890129", "Book3", new DateTime(2022, 12, 01), new Author("Ben", "Johnson"), new Author("Mat3", "Green3")));
 
-            //var authorAndBooks = catalog.GetNumberOfBooksByAuthor(new Author("John", "Stevens"));
-
-
             foreach (var authorAndBooks in catalog.GetNumberOfBooksByAuthor(new Author("Mat", "Green")))
             {
                 Assert.IsTrue(authorAndBooks.Item2 == 2);

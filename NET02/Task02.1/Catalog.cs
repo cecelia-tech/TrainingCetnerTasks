@@ -30,13 +30,11 @@ namespace Task02._1
             }
         }
 
-        //panasu, kad veikia!!!!!!
         public IEnumerable<IEnumerable<Book>> GetBooksByAuthor(string firstName, string lastName)
         {
             yield return books.FindAll(book => book.Authors.Contains(new Author(firstName, lastName)));
         }
 
-        //veikia!!!!
         public IEnumerable<Book> GetBooksSortedByDate()
         {
             foreach (var book in books.OrderByDescending(book => book.PublicationDate))
@@ -44,13 +42,12 @@ namespace Task02._1
                 yield return book;
             }
         }
-        //veikia!!!!!!
+
         public IEnumerable<(Author, int)> GetNumberOfBooksByAuthor(Author authorGiven)
         {
             yield return (authorGiven, books.FindAll(book => book.Authors.Contains(authorGiven)).Count());
         }
 
-        //veikia!!!!!
         public IEnumerator<Book> GetEnumerator()
         {
             foreach (var book in books.OrderBy(x => x.Title))
