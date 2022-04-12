@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task02._1
 {
-    internal class Author
+    public class Author
     {
         public string FirstName { get; private set; }
 

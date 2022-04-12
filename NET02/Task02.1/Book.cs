@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task02._1
 {
-    internal class Book
+    public class Book
     {
         public string ISBN { get; private set; }
         public string Title { get; private set; }
@@ -32,7 +32,7 @@ namespace Task02._1
 
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Book book &&
                    ISBN == book.ISBN;

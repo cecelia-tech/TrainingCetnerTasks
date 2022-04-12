@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Task02._1
 {
-    internal class Catalog : IEnumerable<Book>
+    public class Catalog : IEnumerable<Book>
     {
-        private List<Book> books = new List<Book>();
+        public List<Book> books = new List<Book>();
 
         public void AddBook (Book book)
         {

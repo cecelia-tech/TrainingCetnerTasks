@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Task02._1
 {
-    internal static class Helper
+    public static class Helper
     {
         private static readonly string patternMatch = @"^\d{3}-\d-\d{2}-\d{6}-\d|\d{13}$";
         private static readonly string hyphenCheck = "-";
