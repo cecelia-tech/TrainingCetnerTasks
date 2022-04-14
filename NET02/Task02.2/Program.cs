@@ -17,24 +17,99 @@ StringBuilder userInfoToDisplay2 = new StringBuilder();
 
 //mano users yra 2 login elementai su viskuo viduje medzio atzvilgiu, ne plokscia
 
-bool CountUserMain(XElement user)
+int CountUserMain(XElement user)
 {
-        return user.Elements("window").Where(window => window.Attribute("title").Value == "main").Select(window => window).Count() == 1;
+        return user.Elements("window").Where(window => window.Attribute("title").Value == "main").Count();
 }
 
 //cia patikrinam ar window turi 4 elementus arba nei vieno
-bool CountElementsInMain(XElement user)
+int CountElementsInMainWindow(XElement user)
 {
     //cia gaunam bendra vaiku skaiciu is 1 window main 
-    var d = user.Elements("window").Where(window => window.Attribute("title").Value == "main").Select(window => window).Descendants().Count();
-    return (d == 4 || d == 0);
+    return user.Elements("window").Where(window => window.Attribute("title").Value == "main").Descendants().Count();
 }
+
+
+void PrintString(XElement user)
+{
+    StringBuilder infoToPrint = new StringBuilder();
+    infoToPrint.Append($"Login: {user.Attribute("name").Value} \n");
+
+    if (CountUserMain(user) == 1)
+    {
+        foreach (var window in user.Elements("window"))
+        {
+            infoToPrint.Append($"\t{window.Attribute("title").Value}");
+
+            var elements = window.Descendants();
+            infoToPrint.Append($"({(elements.Any(x => x.Name == "top") != false ? elements.First(x => x.Name == "top").Value : '?') }," +
+                $"{(elements.Any(x => x.Name == "left") != false ? elements.First(x => x.Name == "left").Value : '?') }," +
+                $"{(elements.Any(x => x.Name == "width") != false ? elements.First(x => x.Name == "width").Value : '?') }," +
+                $"{(elements.Any(x => x.Name == "height") != false ? elements.First(x => x.Name == "height").Value : '?') }," +
+                $")\n");
+            
+            /*foreach (var windowNode in window.Descendants())
+            {
+                //infoToPrint.Append(windowNode.Name switch
+                //{
+                //    windowNode
+                //}
+                    
+                //);
+                if (windowNode.Value != "")
+                {
+                    infoToPrint.Append(windowNode.Value);
+                }
+                else
+                {
+                    infoToPrint.Append("?");
+                }
+            }
+            infoToPrint.Append(")\n");*/
+        }
+    }
+    Console.WriteLine(infoToPrint.ToString());
+}
+
+
+/*bool AreAllElementsSet(XElement user)
+{
+    var nodesInsideWindow = user.Elements("window").Where(window => window.Attribute("title").Value == "main").Descendants();
+
+    List<string> titlesOfElements = new List<string>() { "top", "left", "width", "height"};
+
+    var namesOfElements = nodesInsideWindow.Select(element => element.Name);
+
+    foreach (var node in nodesInsideWindow)
+    {
+        foreach (var item in titlesOfElements)
+        {
+            if (true)
+            {
+
+            }
+        }
+        if (!titlesOfElements.Contains(node.Name.ToString()) && node.Value == String.Empty)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}*/
+
+
+
 
 foreach (var item in users)
 {
-    var a = CountUserMain(item);
-    var b = CountElementsInMain(item);
+    //var numberOfMainInUser = CountUserMain(item);
+    //var numberOfElementsInsideMain = CountElementsInMainWindow(item);
+    //var allElementsSet = AreAllElementsSet(item);
+
+    PrintString(item);
 }
+
 
 
 
@@ -58,7 +133,7 @@ foreach (var item in users)
 //return users.Descendants("login").Where(x => x.Elements("window").Contains(x.Element("main"))).Select(xm => xm.Element("window")).Count();
 //users.Where(x => x.Name == "window").Select(x => x.Attributes("main"));
 
-    
+
 //}
 
 
