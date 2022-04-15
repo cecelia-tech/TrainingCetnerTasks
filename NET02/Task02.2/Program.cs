@@ -2,139 +2,47 @@
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Task02._2;
 
 
-var filename = "UserSettings.xml";
-var currentDirectory = "C:\\Users\\VitaGriciute\\source\\repos\\TrainingCetnerTasks\\NET02\\Task02.2\\Config";
-var purchaseOrderFilepath = Path.Combine(currentDirectory, filename);
+//var filename = "UserSettings.xml";
 
-XElement userInfo = XElement.Load(purchaseOrderFilepath);
+//ReadsXML readsXML = new ReadsXML(filename);
 
-//kadangi elements, atiduoda pirmus <config> vaikus, kurie yra <login> ir todel mano users yra 2
-//pasirasom "login", nes jeigu pakliutu kitokiu negu <login>, kad visko nesugadintu
-IEnumerable<XElement> users = userInfo.Elements("login");
-StringBuilder userInfoToDisplay2 = new StringBuilder();
+//var users = readsXML.GetUsers();
 
-//mano users yra 2 login elementai su viskuo viduje medzio atzvilgiu, ne plokscia
-
-int CountUserMain(XElement user)
-{
-        return user.Elements("window").Where(window => window.Attribute("title").Value == "main").Count();
-}
-
-//cia patikrinam ar window turi 4 elementus arba nei vieno
-int CountElementsInMainWindow(XElement user)
-{
-    //cia gaunam bendra vaiku skaiciu is 1 window main 
-    return user.Elements("window").Where(window => window.Attribute("title").Value == "main").Descendants().Count();
-}
-
-
-void PrintString(XElement user)
-{
-    StringBuilder infoToPrint = new StringBuilder();
-    infoToPrint.Append($"Login: {user.Attribute("name").Value} \n");
-
-    if (CountUserMain(user) == 1)
-    {
-        foreach (var window in user.Elements("window"))
-        {
-            infoToPrint.Append($"\t{window.Attribute("title").Value}");
-
-            var elements = window.Descendants();
-            infoToPrint.Append($"({(elements.Any(x => x.Name == "top") != false ? elements.First(x => x.Name == "top").Value : '?') }," +
-                $"{(elements.Any(x => x.Name == "left") != false ? elements.First(x => x.Name == "left").Value : '?') }," +
-                $"{(elements.Any(x => x.Name == "width") != false ? elements.First(x => x.Name == "width").Value : '?') }," +
-                $"{(elements.Any(x => x.Name == "height") != false ? elements.First(x => x.Name == "height").Value : '?') }," +
-                $")\n");
-            
-            /*foreach (var windowNode in window.Descendants())
-            {
-                //infoToPrint.Append(windowNode.Name switch
-                //{
-                //    windowNode
-                //}
-                    
-                //);
-                if (windowNode.Value != "")
-                {
-                    infoToPrint.Append(windowNode.Value);
-                }
-                else
-                {
-                    infoToPrint.Append("?");
-                }
-            }
-            infoToPrint.Append(")\n");*/
-        }
-    }
-    Console.WriteLine(infoToPrint.ToString());
-}
-
-
-/*bool AreAllElementsSet(XElement user)
-{
-    var nodesInsideWindow = user.Elements("window").Where(window => window.Attribute("title").Value == "main").Descendants();
-
-    List<string> titlesOfElements = new List<string>() { "top", "left", "width", "height"};
-
-    var namesOfElements = nodesInsideWindow.Select(element => element.Name);
-
-    foreach (var node in nodesInsideWindow)
-    {
-        foreach (var item in titlesOfElements)
-        {
-            if (true)
-            {
-
-            }
-        }
-        if (!titlesOfElements.Contains(node.Name.ToString()) && node.Value == String.Empty)
-        {
-            return false;
-        }
-    }
-
-    return true;
-}*/
-
-
-
-
-foreach (var item in users)
-{
-    //var numberOfMainInUser = CountUserMain(item);
-    //var numberOfElementsInsideMain = CountElementsInMainWindow(item);
-    //var allElementsSet = AreAllElementsSet(item);
-
-    PrintString(item);
-}
-
-
-
-
-
-
-//users.Select(user => user.Attributes("title")).Count();
-
-
-//foreach (var user in users.Select(user => user.Attributes("main")))
+//foreach (var item in users)
 //{
-//    Console.WriteLine(user);
+//    Console.WriteLine(readsXML.GetUsersInfoToPrint(item));
+//    XMLtoJSON XMLtoJSON = new XMLtoJSON(readsXML.GetUsersInfoToPrint(item));
+//    XMLtoJSON.ConvertXMLtoJSON();
 //}
-//users.Select(user => user.Attributes("main").ToList().ForEach(windowSuMain => Console.WriteLine(windowSuMain)));
-//void IsCorrect()
+//su situ interface mes galim keist kokius objektus mes norim saugot arba skaityt
+//nes tik pakeitus new dali, visas kodas veiks taip pat
+IRepository repository = new XMLLoader()
+List<User> users = repository.ReadSettings();
+
+repository.Save();
+
+
+
+
+
+
+
+
+
+
+
+//foreach (var item in users)
 //{
-//return users.Select(x => x.Elements("window").Attributes("title")).Where(x => x).Count();
-//return users.Where(x => x.Elements("window").Attributes("title").Value == "main").Select(m => m.Elements("window")).Count();
-//visiWindowSuTitle.Where(x => x.V
-//return users.Select(x => x.Attributes("title").
-//Where(x => x.Value == "main" && x.Value == "help")).Count();
-//return users.Descendants("login").Where(x => x.Elements("window").Contains(x.Element("main"))).Select(xm => xm.Element("window")).Count();
-//users.Where(x => x.Name == "window").Select(x => x.Attributes("main"));
+//    //var numberOfMainInUser = CountUserMain(item);
+//    //var numberOfElementsInsideMain = CountElementsInMainWindow(item);
+//    //var allElementsSet = AreAllElementsSet(item);
 
-
+//    Console.WriteLine(PrintString(item)); 
 //}
+
 
 
 //bool IsCorrect()
