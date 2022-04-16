@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Task02._2
 {
     internal class XMLLoader : IRepository
     {
-
         public List<User> GetUsersFromXML(string xmlDocument)
         {
             //read and parse xml, but the task is to return the list of users
@@ -25,7 +25,12 @@ namespace Task02._2
 
         public void Write()
         {
-            throw new NotImplementedException();
+            XmlSerializer writer = new XmlSerializer(typeof(UsersWithSettings));
+
+            using (FileStream stream = new FileStream("newFile.xml", FileMode.OpenOrCreate))
+            {
+                writer.Serialize(stream, infoToStore);
+            }
         }
     }
 }

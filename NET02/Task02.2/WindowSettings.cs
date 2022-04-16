@@ -10,7 +10,13 @@ namespace Task02._2
     {
         public WindowSettings(string name, int top, int left, int width, int height)
         {
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+
+            if (top < 0 || left < 0 || width < 0 || height < 0)
+            {
+                throw new ArgumentException("Window settings can't be negative");
+            }
+
             Top = top;
             Left = left;
             Width = width;
@@ -24,6 +30,7 @@ namespace Task02._2
         public int? Height { get; set; }
 
         //pasidarom nauja metoda, kuris atiduos nauja object su naujom reiksmem saugojimui
+        //cia tikriausiai kai patikrinsim ar yra visos dalys reikiamos
         public WindowSettings GetCorrectedWindowSettings()
         {
             return new WindowSettings(Name, Top ?? 0, Left ?? 0, Width ?? 400, Height ?? 150);
