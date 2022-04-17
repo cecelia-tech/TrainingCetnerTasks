@@ -19,10 +19,33 @@ using Task02._2;
 //}
 //su situ interface mes galim keist kokius objektus mes norim saugot arba skaityt
 //nes tik pakeitus new dali, visas kodas veiks taip pat
-IRepository repository = new XMLLoader()
-List<User> users = repository.ReadSettings();
 
-repository.Save();
+
+//IRepository repository = new XMLLoader()
+//List<User> users = repository.ReadSettings();
+
+//repository.Save();
+
+List<User> users = (new XMLLoader().GetUsersFromXML("Config\\newFile.xml"));
+
+foreach (var item in users)
+{
+    Console.WriteLine(item.Name);
+    foreach (var item2 in item.windowSettings)
+    {
+        Console.WriteLine(item2.Name);
+        Console.WriteLine(item2.Height);
+    }
+}
+
+User Sam = new User("Sam");
+Sam.AddWindowSettings(new WindowSettings("main", 50, 60, 70, 80));
+Sam.AddWindowSettings(new WindowSettings("sample", 200, null, 30, 60));
+
+XMLLoader loader = new XMLLoader();
+loader.Write(new List<User> { Sam, Sam });
+
+loader.Read();
 
 
 

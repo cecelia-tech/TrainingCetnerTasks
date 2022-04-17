@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Task02._2
 {
-    internal class WindowSettings
+    [XmlRoot("WindowSSSSS")]
+    public class WindowSettings
     {
-        public WindowSettings(string name, int top, int left, int width, int height)
+        public WindowSettings()
+        {
+        }
+
+        public WindowSettings(string name, int? top, int? left, int? width, int? height)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
 
