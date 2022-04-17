@@ -3,19 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Task02._2
 {
-    internal class User
+    //[XmlInclude(typeof(WindowSettings))]
+    [Serializable]
+    //[XmlRoot(ElementName = "window")]
+    //[XmlRoot("login")]
+    public class User
     {
         //our user can have multiple window settings
-        List<WindowSettings> windowSettings = new List<WindowSettings>();
+        //[XmlArray("windows")]
+        //[XmlArrayItem("window")]
+        //[XmlArrayItem(Attribute = "g")]
+        //[XmlElement("window")]
+        public List<WindowSettings> windowSettings = new List<WindowSettings>();
+
+        public User()
+        {
+        }
 
         public User(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
-        public string Name { get; private set; }
+
+        //[XmlAttribute("name")]
+        public string Name { get; set; }
 
         internal void AddWindowSettings(WindowSettings windowSetting)
         {

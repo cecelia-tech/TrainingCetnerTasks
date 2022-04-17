@@ -25,25 +25,34 @@ using Task02._2;
 //List<User> users = repository.ReadSettings();
 
 //repository.Save();
-
-List<User> users = (new XMLLoader().GetUsersFromXML("Config\\newFile.xml"));
-
-foreach (var item in users)
-{
-    Console.WriteLine(item.Name);
-    foreach (var item2 in item.windowSettings)
-    {
-        Console.WriteLine(item2.Name);
-        Console.WriteLine(item2.Height);
-    }
-}
-
 User Sam = new User("Sam");
 Sam.AddWindowSettings(new WindowSettings("main", 50, 60, 70, 80));
 Sam.AddWindowSettings(new WindowSettings("sample", 200, null, 30, 60));
 
+User Bob = new User("Bob");
+Bob.AddWindowSettings(new WindowSettings("main2", 50, 60, 70, 80));
+Bob.AddWindowSettings(new WindowSettings("sample2", 200, null, 30, 60));
+//UsersWithSettings usersWithSettings = new UsersWithSettings();
+//usersWithSettings.AddUsers(Sam);
+//usersWithSettings.AddUsers(Bob);
 XMLLoader loader = new XMLLoader();
-loader.Write(new List<User> { Sam, Sam });
+loader.Write(new List<User> { Sam, Bob});
+
+List<User> users = (loader.GetUsersFromXML("Config\\writerSample.xml"));
+
+foreach (var user in users)
+{
+    Console.WriteLine(user.Name);
+    foreach (var window in user.windowSettings)
+    {
+        Console.WriteLine(window.Title);
+        Console.WriteLine(window.Height);
+    }
+}
+
+
+
+
 
 loader.Read();
 
