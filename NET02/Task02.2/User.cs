@@ -18,7 +18,7 @@ namespace Task02._2
         //[XmlArrayItem("window")]
         //[XmlArrayItem(Attribute = "g")]
         //[XmlElement("window")]
-        public List<WindowSettings> windowSettings = new List<WindowSettings>();
+        //public List<WindowSettings> windowSettings = new List<WindowSettings>();
 
         public User()
         {
@@ -31,10 +31,11 @@ namespace Task02._2
 
         //[XmlAttribute("name")]
         public string Name { get; set; }
+        public List<WindowSettings> WindowSettings { get; set; } = new List<WindowSettings>();
 
         internal void AddWindowSettings(WindowSettings windowSetting)
         {
-            windowSettings.Add(windowSetting ?? throw new ArgumentNullException(nameof(windowSetting)));
+            WindowSettings.Add(windowSetting ?? throw new ArgumentNullException(nameof(windowSetting)));
         }
     }
 }

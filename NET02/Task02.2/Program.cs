@@ -30,7 +30,7 @@ Sam.AddWindowSettings(new WindowSettings("main", 50, 60, 70, 80));
 Sam.AddWindowSettings(new WindowSettings("sample", 200, null, 30, 60));
 
 User Bob = new User("Bob");
-Bob.AddWindowSettings(new WindowSettings("main2", 50, 60, 70, 80));
+Bob.AddWindowSettings(new WindowSettings("nnnnnn", 50, 60, 70, 80));
 Bob.AddWindowSettings(new WindowSettings("sample2", 200, null, 30, 60));
 //UsersWithSettings usersWithSettings = new UsersWithSettings();
 //usersWithSettings.AddUsers(Sam);
@@ -43,7 +43,7 @@ List<User> users = (loader.GetUsersFromXML("Config\\writerSample.xml"));
 foreach (var user in users)
 {
     Console.WriteLine(user.Name);
-    foreach (var window in user.windowSettings)
+    foreach (var window in user.WindowSettings)
     {
         Console.WriteLine(window.Title);
         Console.WriteLine(window.Height);
@@ -51,10 +51,11 @@ foreach (var user in users)
 }
 
 
+loader.Read("Config\\writerSample.xml");
 
+JSONSaver jasonSaver = new JSONSaver("Config\\writerSample.xml");
 
-
-loader.Read();
+jasonSaver.SaveUsers();
 
 
 
