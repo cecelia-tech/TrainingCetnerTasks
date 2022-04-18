@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace Task02._2
 {
     [Serializable]
-    //[XmlRoot(ElementName = "window")]
+    //[XmlRoot("window")]
     public class WindowSettings
     {
         public WindowSettings()

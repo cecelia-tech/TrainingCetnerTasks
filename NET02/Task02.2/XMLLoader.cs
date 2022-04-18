@@ -168,6 +168,15 @@ namespace Task02._2
 
 
         }
+        //public void Write(List<User> users)
+        //{
+        //    XmlSerializer writer = new XmlSerializer(typeof(List<User>));
+
+        //    using (TextWriter stream = new StreamWriter("Config\\tryNewXML.xml"))
+        //    {
+        //        writer.Serialize(stream, users);
+        //    }
+        //}
 
         void CreateDirectory(string folderTitle)
         {

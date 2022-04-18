@@ -22,6 +22,10 @@ namespace Task02._2
             FileName = fileName;
         }
 
+        public ReadsXML()
+        {
+        }
+
         public string FileName { get; set; }
 
         private string currentDirectory = "C:\\Users\\VitaGriciute\\source\\repos\\TrainingCetnerTasks\\NET02\\Task02.2\\Config";
@@ -54,7 +58,7 @@ namespace Task02._2
         //cia patikrinam ar window turi 4 elementus
         public int CountElementsInMainWindow(XElement user)
         {
-            //cia gaunam bendra vaiku skaiciu is window main, if 2 main, the count will be counted accordingly
+            //we get a number of elements in window main, if 2 main, the count will be counted accordingly
             return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Descendants().Count();
         }
         
