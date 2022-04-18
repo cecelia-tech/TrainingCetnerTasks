@@ -35,9 +35,9 @@ namespace Task02._2
             XElement userInfo = XElement.Load(xmlPath);
 
             StringBuilder infoToPrint = new StringBuilder();
+
             foreach (var user in userInfo.Elements("login"))
             {
-
                 infoToPrint.Append($"{(IsLoginCorrect(user) == true ? "Correct" : "Incorrect")} \n");
                 infoToPrint.Append($"Login: {user.Attribute("name")?.Value} \n");
                 
@@ -75,7 +75,7 @@ namespace Task02._2
             return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Descendants().Count();
         }
 
-        public void Write(List<User> users)
+        public void SaveUsersToXml(List<User> users)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;

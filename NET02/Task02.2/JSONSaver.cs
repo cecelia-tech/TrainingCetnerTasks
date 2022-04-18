@@ -14,7 +14,7 @@ namespace Task02._2
         {
             if (!Directory.Exists("Config"))
             {
-                throw new Exception("There is no data to read. File path should be Config\\");
+                throw new Exception("There is no data to read.");
             }
 
             List<User> users = new List<User>();
