@@ -18,14 +18,14 @@ namespace Task02._2
 
             foreach (var userInFile in usersInXML.Elements("login"))
             {
-                User user = new User(userInFile.Attribute("name").Value);
+                User user = new User(userInFile.Attribute("name")!.Value);
                 foreach (var window in userInFile.Elements("window"))
                 {
-                    user.AddWindowSettings(new WindowSettings(window.Attribute("title").Value,
-                        window.Element("top")?.Value is null ? null : int.Parse(window.Element("top").Value),
-                        window.Element("left")?.Value is null ? null : int.Parse(window.Element("left").Value),
-                        window.Element("width")?.Value is null ? null : int.Parse(window.Element("width").Value),
-                        window.Element("height")?.Value is null ? null : int.Parse(window.Element("height").Value)
+                    user.AddWindowSettings(new WindowSettings(window.Attribute("title")!.Value,
+                        window.Element("top")?.Value is null ? null : int.Parse(window.Element("top")!.Value),
+                        window.Element("left")?.Value is null ? null : int.Parse(window.Element("left")!.Value),
+                        window.Element("width")?.Value is null ? null : int.Parse(window.Element("width")!.Value),
+                        window.Element("height")?.Value is null ? null : int.Parse(window.Element("height")!.Value)
                         ));
                 }
             }
@@ -48,12 +48,12 @@ namespace Task02._2
         public void Read()
         {
             XElement userInfo = XElement.Load("Config\\writerSample.xml");
-            //var users = userInfo.Elements("User");
 
             foreach (var user in userInfo.Elements("login"))
             {
                 StringBuilder infoToPrint = new StringBuilder();
 
+                infoToPrint.Append($"{(IsLoginCorrect(user) == true ? "Correct" : "Incorrect")} \n");
                 infoToPrint.Append($"Login: {user.Attribute("name")?.Value} \n");
                 
                 foreach (var window in user.Elements("window"))
@@ -72,9 +72,24 @@ namespace Task02._2
                 Console.WriteLine(infoToPrint.ToString()); 
             }
         }
+        public bool IsLoginCorrect(XElement user)
+        {
+            return CountUserMain(user) == 1 &&
+                (CountElementsInMainWindow(user) == 4 ||
+                CountElementsInMainWindow(user) == 0);
+        }
+
+        //mano users yra 2 login elementai su viskuo viduje medzio atzvilgiu, ne plokscia
         public int CountUserMain(XElement user)
         {
             return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Count();
+        }
+
+        //cia patikrinam ar window turi 4 elementus
+        public int CountElementsInMainWindow(XElement user)
+        {
+            //we get a number of elements in window main, if 2 main, the count will be counted accordingly
+            return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Descendants().Count();
         }
         public void Write(List<User> users)
         {
