@@ -8,7 +8,6 @@ namespace Task02._2
 {
     internal interface IRepository
     {
-        void Write(List<User> users);
-        void Read(string xmlPath);
+        List<User> GetUsers (string xmlPath);
     }
 }

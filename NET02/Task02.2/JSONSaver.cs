@@ -8,46 +8,45 @@ using System.Xml;
 
 namespace Task02._2
 {
-    [Serializable]
     internal class JSONSaver : IRepository
     {
-        public string XmlPath { get; set; }
-        public JSONSaver(string xmlPath)
+        public List<User> GetUsers(string jsonPath)
         {
-            XmlPath = xmlPath ?? throw new ArgumentNullException(nameof(xmlPath));
+            if (!Directory.Exists("Config"))
+            {
+                throw new Exception("There is no data to read. File path should be Config\\");
+            }
+
+            List<User> users = new List<User>();
+
+            foreach (var directory in Directory.EnumerateDirectories("Config"))
+            {
+                string jsonString = File.ReadAllText(directory + "\\appsettings.json");
+
+                users.Add(JsonSerializer.Deserialize<User>(jsonString));
+            }
+
+            return users;
         }
 
-
-        //will return list of users
-        public void Read(string xmlPath)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveUsers()
+        public void SaveUsers(string xmlPath)
         {
             XMLLoader loadUsers = new XMLLoader();
 
-            List<User> users = loadUsers.GetUsersFromXML(XmlPath);
+            List<User> users = loadUsers.GetUsers(xmlPath);
 
             foreach (var user in users)
             {
-                User correctedUser = new User(user.Name);
-                correctedUser.WindowSettings = user.WindowSettings.Select(window => window.GetCorrectedWindowSettings()).ToList();
-                
                 CreateDirectory($"Config\\{user.Name}");
 
                 using (var fs = File.Create($"Config\\{user.Name}\\appsettins.json"))
                 {
+                    User correctedUser = new User(user.Name);
+                    correctedUser.WindowSettings = user.WindowSettings.Select(window => window.GetCorrectedWindowSettings()).ToList();
+
                     JsonSerializer.Serialize(fs, correctedUser, new JsonSerializerOptions { WriteIndented = true });
                 }
             }
-            
-        }
-
-        public void Write(List<User> users)
-        {
-            throw new NotImplementedException();
         }
 
         void CreateDirectory(string folderTitle)
@@ -55,7 +54,9 @@ namespace Task02._2
             if (!Directory.Exists(folderTitle))
             {
                 Directory.CreateDirectory(folderTitle);
+                
             }
         }
+
     }
 }

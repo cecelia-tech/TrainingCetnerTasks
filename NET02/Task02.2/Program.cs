@@ -4,27 +4,6 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Task02._2;
 
-
-//var filename = "UserSettings.xml";
-
-//ReadsXML readsXML = new ReadsXML(filename);
-
-//var users = readsXML.GetUsers();
-
-//foreach (var item in users)
-//{
-//    Console.WriteLine(readsXML.GetUsersInfoToPrint(item));
-//    XMLtoJSON XMLtoJSON = new XMLtoJSON(readsXML.GetUsersInfoToPrint(item));
-//    XMLtoJSON.ConvertXMLtoJSON();
-//}
-//su situ interface mes galim keist kokius objektus mes norim saugot arba skaityt
-//nes tik pakeitus new dali, visas kodas veiks taip pat
-
-
-//IRepository repository = new XMLLoader()
-//List<User> users = repository.ReadSettings();
-
-//repository.Save();
 User Sam = new User("Sam");
 Sam.AddWindowSettings(new WindowSettings("main", 50, 60, 70, 80));
 Sam.AddWindowSettings(new WindowSettings("sample", 200, null, 30, 60));
@@ -32,13 +11,11 @@ Sam.AddWindowSettings(new WindowSettings("sample", 200, null, 30, 60));
 User Bob = new User("Bob");
 Bob.AddWindowSettings(new WindowSettings("nnnnnn", 50, 60, 70, 80));
 Bob.AddWindowSettings(new WindowSettings("sample2", 200, null, 30, 60));
-//UsersWithSettings usersWithSettings = new UsersWithSettings();
-//usersWithSettings.AddUsers(Sam);
-//usersWithSettings.AddUsers(Bob);
+
 XMLLoader loader = new XMLLoader();
 loader.Write(new List<User> { Sam, Bob});
 
-List<User> users = (loader.GetUsersFromXML("Config\\writerSample.xml"));
+List<User> users = (loader.GetUsers("Config\\writerSample.xml"));
 
 foreach (var user in users)
 {
@@ -50,12 +27,12 @@ foreach (var user in users)
     }
 }
 
+Console.WriteLine(loader.GetXmlInfoForDisplay("Config\\writerSample.xml"));
 
-loader.Read("Config\\writerSample.xml");
 
-JSONSaver jasonSaver = new JSONSaver("Config\\writerSample.xml");
+JSONSaver jasonSaver = new JSONSaver();
 
-jasonSaver.SaveUsers();
+jasonSaver.SaveUsers("Config\\writerSample.xml");
 
 
 
