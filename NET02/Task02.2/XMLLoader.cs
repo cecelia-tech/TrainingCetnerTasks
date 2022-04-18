@@ -13,16 +13,33 @@ namespace Task02._2
     {
         public List<User> GetUsersFromXML(string xmlDocument)
         {
+            XElement usersInXML = XElement.Load("Config\\writerSample.xml");
+            List<User> users = new List<User>();
 
+            foreach (var userInFile in usersInXML.Elements("login"))
+            {
+                User user = new User(userInFile.Attribute("name").Value);
+                foreach (var window in userInFile.Elements("window"))
+                {
+                    user.AddWindowSettings(new WindowSettings(window.Attribute("title").Value,
+                        window.Element("top")?.Value is null ? null : int.Parse(window.Element("top").Value),
+                        window.Element("left")?.Value is null ? null : int.Parse(window.Element("left").Value),
+                        window.Element("width")?.Value is null ? null : int.Parse(window.Element("width").Value),
+                        window.Element("height")?.Value is null ? null : int.Parse(window.Element("height").Value)
+                        ));
+                }
+            }
+            // load xml file
+            //usersInXML.Load(@"C:\project\aaa.xml");
 
             //read and parse xml, but the task is to return the list of users
-            List<User> users = new List<User>();
-            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-            using (Stream reader = new FileStream(xmlDocument, FileMode.Open))
-            {
-                // Call the Deserialize method to restore the object's state.
-                users = (List<User>)serializer.Deserialize(reader);
-            }
+            //List<User> users = new List<User>();
+            //XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
+            //using (Stream reader = new FileStream(xmlDocument, FileMode.Open))
+            //{
+            //    // Call the Deserialize method to restore the object's state.
+            //    users = (List<User>)serializer.Deserialize(reader);
+            //}
             //after parse xml and add user to the list
             //create user like List<WindowSettings>
             return users;
