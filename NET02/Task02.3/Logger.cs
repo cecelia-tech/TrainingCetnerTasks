@@ -44,5 +44,10 @@ namespace Task02._3
                 }
             }
         }
+
+        public void Track(object obj)
+        {
+
+        }
     }
 }

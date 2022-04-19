@@ -18,7 +18,6 @@ namespace WordListener
             var allJsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("ConfigData.json"));
 
             settings = allJsonSettings?["ListenWords"]?.ToObject<Config>();
-
         }
 
         public void Log(string message)
