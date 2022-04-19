@@ -33,7 +33,7 @@ namespace Task02._2
         public string Name { get; set; }
         public List<WindowSettings> WindowSettings { get; set; } = new List<WindowSettings>();
 
-        internal void AddWindowSettings(WindowSettings windowSetting)
+        public void AddWindowSettings(WindowSettings windowSetting)
         {
             WindowSettings.Add(windowSetting ?? throw new ArgumentNullException(nameof(windowSetting)));
         }

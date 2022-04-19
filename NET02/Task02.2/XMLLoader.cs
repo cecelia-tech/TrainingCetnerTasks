@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace Task02._2
 {
-    internal class XMLLoader : IRepository
+    public class XMLLoader : IRepository
     {
         public List<User> GetUsers(string xmlPath)
         {

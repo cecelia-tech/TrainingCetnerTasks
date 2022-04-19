@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace Task02._2
 {
-    internal class JSONSaver : IRepository
+    public class JSONSaver : IRepository
     {
         public List<User> GetUsers(string jsonPath)
         {
