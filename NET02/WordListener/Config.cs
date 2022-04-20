@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task02._3
+namespace WordListener
 {
-    public interface IListener 
+    public class Config
     {
-        public Config settings { get; set; }
-        void Log (string message);
+        public string Name { get; set; }
+        public string? FileName { get; set; }
     }
 }

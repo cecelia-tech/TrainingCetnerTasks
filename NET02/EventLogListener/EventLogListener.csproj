@@ -10,8 +10,8 @@
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Task02.3\Task02.3.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\ListenerInterface\ListenerInterface.csproj" />
+	</ItemGroup>
 
 </Project>

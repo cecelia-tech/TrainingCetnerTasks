@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using ListenerInterface;
 
 namespace Task02._3
 {
@@ -39,7 +40,7 @@ namespace Task02._3
                         listeners.Add(listener);
                         listener.Log("yyyyyyy");
                         listener.Log("hhhhh");
-                        //Console.WriteLine(listener.settings.FileName);
+                        //Console.WriteLine(listener.settings?.FileName);
                     }
                 }
             }

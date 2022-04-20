@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ListenerInterface\ListenerInterface.csproj" />
     <ProjectReference Include="..\TrackingComponents\TrackingComponents.csproj" />
   </ItemGroup>
 
