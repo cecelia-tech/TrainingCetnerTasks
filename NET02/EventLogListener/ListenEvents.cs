@@ -40,11 +40,13 @@ namespace EventLogListener
                     return;
                 }
                 //Creating eventLog instance and assigning the source
-                EventLog eventLog = new EventLog();
-                eventLog.Source = settings?.SourceName;
+                using (EventLog eventLog = new EventLog())
+                {
+                    eventLog.Source = settings?.SourceName;
 
-                //write information we need
-                eventLog.WriteEntry(message);
+                    //write information we need
+                    eventLog.WriteEntry(message);
+                }
             }
         }
     }

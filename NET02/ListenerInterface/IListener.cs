@@ -2,7 +2,7 @@
 {
     public interface IListener
     {
-        //public Config settings { get; set; }
+        void Write(string message);
         void Log(string message);
     }
 }
