@@ -8,7 +8,7 @@ namespace EventLogListener
 {
     public class Config
     {
-        public string Name { get; set; }
-        public string? FileName { get; set; }
+        public string SourceName { get; set; }
+        public string? LogName { get; set; }
     }
 }
