@@ -39,8 +39,6 @@ namespace Task02._3
                         IListener listener = (IListener)Activator.CreateInstance(type)!;
                         listeners.Add(listener);
                         listener.Log("yyyyyyy");
-                        listener.Log("hhhhh");
-                        //Console.WriteLine(listener.settings?.FileName);
                     }
                 }
             }

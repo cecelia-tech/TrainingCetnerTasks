@@ -27,22 +27,26 @@ namespace TextListener
             Console.WriteLine(settings?.FileName);
         }
 
-        public void Write(string message)
+        public void Write(string message, int logLevel)
         {
-            if (message != null)
+            if (logLevel >= settings?.LogLevel)
             {
-                if (File.Exists(settings?.FileName))
+                if (message != null)
                 {
-                    using (StreamWriter file = new(settings?.FileName, append : true))
+                    if (File.Exists(settings?.FileName))
                     {
-                        file.WriteLine(message);
+                        using (StreamWriter file = new(settings?.FileName, append: true))
+                        {
+                            file.WriteLine(message);
+                        }
+                    }
+                    else
+                    {
+                        File.WriteAllText(settings?.FileName, message);
                     }
                 }
-                else
-                {
-                    File.WriteAllText(settings?.FileName, message);
-                }
             }
+            
             
             
         }

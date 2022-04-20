@@ -26,9 +26,9 @@ namespace EventLogListener
             Console.WriteLine(message + " from listen events");
         }
 
-        public void Write(string message)
+        public void Write(string message, int logLevel)
         {
-            if (message != null)
+            if (message != null && logLevel >= settings?.LogLevel)
             {
                 //creating a source if it doesn't exist already
                 if (!EventLog.SourceExists(settings?.SourceName))

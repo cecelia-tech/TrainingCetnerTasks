@@ -29,23 +29,24 @@ namespace WordListener
             Console.WriteLine(settings?.FileName);
         }
 
-        public void Write(string message)
+        public void Write(string message, int logLevel)
         {
-            //creating document by giving file path ?? name?
-            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(settings?.FileName, WordprocessingDocumentType.Document))
+            if(logLevel >= settings?.LogLevel)
             {
-                //Adding main document part
-                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                //creating document by giving file path ?? name?
+                using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(settings?.FileName, WordprocessingDocumentType.Document))
+                {
+                    //Adding main document part
+                    MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
 
-                //Creating the document structure and adding text
-                mainPart.Document = new Document();
-                Body body = mainPart.Document.AppendChild(new Body());
-                Paragraph paragraph = body.AppendChild(new Paragraph());
-                Run run = paragraph.AppendChild(new Run());
-                run.AppendChild(new Text(message));
+                    //Creating the document structure and adding text
+                    mainPart.Document = new Document();
+                    Body body = mainPart.Document.AppendChild(new Body());
+                    Paragraph paragraph = body.AppendChild(new Paragraph());
+                    Run run = paragraph.AppendChild(new Run());
+                    run.AppendChild(new Text(message));
+                }
             }
         }
-
-
     }
 }
