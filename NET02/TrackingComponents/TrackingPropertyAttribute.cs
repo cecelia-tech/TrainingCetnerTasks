@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 namespace TrackingComponents
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    internal class TrackingPropertyAttribute : Attribute
+
+    public class TrackingPropertyAttribute : Attribute
     {
+        public TrackingPropertyAttribute()
+        {
+        }
+
+        public string MemberName { get; set; }
     }
 }
