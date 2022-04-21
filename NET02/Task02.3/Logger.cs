@@ -40,7 +40,7 @@ namespace Task02._3
                         IListener listener = (IListener)Activator.CreateInstance(type)!;
                         listeners.Add(listener);
                         //tiesiog testas patikrint log metoda
-                        listener.Log("yyyyyyy");
+                        //listener.Log("yyyyyyy");
                     }
                 }
             }
@@ -49,23 +49,32 @@ namespace Task02._3
         public void Track<T>(T obj)
         {
             var type = typeof(T);
-            List<string> collectedInfo = new List<string>();
+
+            StringBuilder collectedInfo = new StringBuilder();
 
             if (type.IsDefined(typeof(TrackingEntityAttribute)))
             {
                 //we collect all fields, methods and so on which has attributes applied
                 var typeMembers = type.GetMembers().Where(x => x.IsDefined(typeof(TrackingPropertyAttribute)));
 
-                
-
                 foreach (var member in typeMembers)
                 {
-                    collectedInfo.Add($"{(member.Name ?? member.GetCustomAttribute<TrackingPropertyAttribute>()?.MemberName)}" +
-                        $" = {(member.MemberType == MemberTypes.Property ? ((PropertyInfo)member).GetValue(obj) : ((FieldInfo)member).GetValue(obj))}");
-                    //Console.WriteLine(member.Name);
-                    //need to cast to PropertyInfo or FieldInfo to be able to access the value?
-                    //Console.WriteLine(member.MemberType == MemberTypes.Property ? ((PropertyInfo)member).GetValue(obj) : ((FieldInfo)member).GetValue(obj));
+                    collectedInfo.Append($"{(member.Name ?? member.GetCustomAttribute<TrackingPropertyAttribute>()?.MemberName)}" +
+                        $" = {(member.MemberType == MemberTypes.Property ? ((PropertyInfo)member).GetValue(obj) : ((FieldInfo)member).GetValue(obj))}\n");
                 }
+            }
+
+            if (collectedInfo.ToString().Length != 0)
+            {
+                WriteInfoToFiles(collectedInfo.ToString(), 4);
+            } 
+        }
+
+        public void WriteInfoToFiles(string collectedInfo, int logLevel)
+        {
+            foreach (var listener in listeners)
+            {
+                listener.Write(collectedInfo, logLevel);
             }
         }
     }

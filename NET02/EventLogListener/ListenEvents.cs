@@ -19,7 +19,7 @@ namespace EventLogListener
         {
             var allJsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("EventLogConfig.json"));
 
-            settings = allJsonSettings?["ListenEvents"]?.ToObject<Config>();
+            settings = allJsonSettings?["EventLogListener"]?.ToObject<Config>();
         }
         public void Log(string message)
         {

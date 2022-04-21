@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,11 @@ namespace WordListener
         {
             var allJsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("WordListenerConfig.json"));
 
-            settings = allJsonSettings?["ListenWords"]?.ToObject<Config>();
+            settings = allJsonSettings?["WordListener"]?.ToObject<Config>();
+
+            //Assembly.LoadFrom(@"C:\Users\VitaGriciute\.nuget\packages\system.io.packaging\4.7.0\ref\netstandard2.0\System.IO.Packaging.dll");
+            //Assembly.LoadFrom(@"C:\Users\VitaGriciute\.nuget\packages\documentformat.openxml\2.16.0\lib\netstandard2.0\DocumentFormat.OpenXml.dll");
+            
         }
 
         public void Log(string message)

@@ -18,7 +18,7 @@ namespace TextListener
         {
             var allJsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("TextListenerConfig.json"));
 
-            settings = allJsonSettings?["ListenText"]?.ToObject<Config>();
+            settings = allJsonSettings?["TextListener"]?.ToObject<Config>();
         }
 
         public void Log(string message)
