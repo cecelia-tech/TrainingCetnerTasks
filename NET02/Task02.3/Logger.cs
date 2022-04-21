@@ -39,8 +39,6 @@ namespace Task02._3
                     {
                         IListener listener = (IListener)Activator.CreateInstance(type)!;
                         listeners.Add(listener);
-                        //tiesiog testas patikrint log metoda
-                        //listener.Log("yyyyyyy");
                     }
                 }
             }
