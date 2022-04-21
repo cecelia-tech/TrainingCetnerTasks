@@ -76,6 +76,7 @@ namespace Task02._3
             {
                 listener.Write(collectedInfo, logLevel);
             }
+            Console.WriteLine(collectedInfo + logLevel);
         }
     }
 }
