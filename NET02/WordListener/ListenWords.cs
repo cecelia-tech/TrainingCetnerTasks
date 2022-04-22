@@ -24,12 +24,6 @@ namespace WordListener
             settings = allJsonSettings?["WordListener"]?.ToObject<Config>();
         }
 
-        public void Log(string message)
-        {
-            Console.WriteLine(message + " from word listener");
-            Console.WriteLine(settings?.FileName);
-        }
-
         public void Write(string message, int logLevel)
         {
             if(logLevel >= settings?.LogLevel)

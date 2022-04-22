@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 using ListenerInterface;
 using TrackingComponents;
@@ -57,7 +56,7 @@ namespace Task02._3
 
                 foreach (var member in typeMembers)
                 {
-                    collectedInfo.Append($"{(member.Name ?? member.GetCustomAttribute<TrackingPropertyAttribute>()?.MemberName)}" +
+                    collectedInfo.Append($"{(member.GetCustomAttribute<TrackingPropertyAttribute>()?.MemberName ?? member.Name)}" +
                         $" = {(member.MemberType == MemberTypes.Property ? ((PropertyInfo)member).GetValue(obj) : ((FieldInfo)member).GetValue(obj))}\n");
                 }
             }

@@ -1,15 +1,10 @@
 ﻿using ListenerInterface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
-namespace EventLogListener 
+namespace EventLogListener
 {
     public class ListenEvents : IListener
     {
@@ -20,10 +15,6 @@ namespace EventLogListener
             var allJsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("EventLogConfig.json"));
 
             settings = allJsonSettings?["EventLogListener"]?.ToObject<Config>();
-        }
-        public void Log(string message)
-        {
-            Console.WriteLine(message + " from listen events");
         }
 
         public void Write(string message, int logLevel)
