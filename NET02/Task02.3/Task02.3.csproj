@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ListenerInterface\ListenerInterface.csproj" />
+    <ProjectReference Include="..\MonitoringApp\MonitoringApp.csproj" />
     <ProjectReference Include="..\TrackingComponents\TrackingComponents.csproj" />
   </ItemGroup>
 

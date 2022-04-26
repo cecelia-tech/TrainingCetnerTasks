@@ -6,9 +6,9 @@ namespace Task02._3
     public class Example
     {
         [TrackingProperty]
-        public int ExampleProperty { get; set; } = 666;
+        public int ExampleProperty { get; set; } = 777;
 
         [TrackingProperty(MemberName = "Second example property name")]
-        public string SecondExampleProperty { get; set; } = "bxhvbxjvjvn";
+        public string ExampleStringProperty { get; set; } = "bxhvbxjvjvn";
     }
 }

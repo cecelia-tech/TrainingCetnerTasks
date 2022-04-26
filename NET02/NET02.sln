@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task02.3", "Task02.3\Task02.3.csproj", "{C357906D-98A7-4CED-B5E6-22E2880972E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task02.3", "Task02.3\Task02.3.csproj", "{C357906D-98A7-4CED-B5E6-22E2880972E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextListener", "TextListener\TextListener.csproj", "{E6B35B9C-45BE-4745-AFB1-A53728474997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextListener", "TextListener\TextListener.csproj", "{E6B35B9C-45BE-4745-AFB1-A53728474997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordListener", "WordListener\WordListener.csproj", "{90CEC195-9236-4F70-99A8-3FDE170EBDD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordListener", "WordListener\WordListener.csproj", "{90CEC195-9236-4F70-99A8-3FDE170EBDD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventLogListener", "EventLogListener\EventLogListener.csproj", "{FE36240F-8AC0-4785-B844-D64218AF52FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventLogListener", "EventLogListener\EventLogListener.csproj", "{FE36240F-8AC0-4785-B844-D64218AF52FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingComponents", "TrackingComponents\TrackingComponents.csproj", "{5C5F510D-601C-4080-88D4-AB7B341F22F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackingComponents", "TrackingComponents\TrackingComponents.csproj", "{5C5F510D-601C-4080-88D4-AB7B341F22F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListenerInterface", "ListenerInterface\ListenerInterface.csproj", "{6949181A-25D8-453A-BCCF-165AD4E653C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListenerInterface", "ListenerInterface\ListenerInterface.csproj", "{6949181A-25D8-453A-BCCF-165AD4E653C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitoringApp", "MonitoringApp\MonitoringApp.csproj", "{33025021-C75B-4424-807E-C2CE4C0E3087}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6949181A-25D8-453A-BCCF-165AD4E653C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6949181A-25D8-453A-BCCF-165AD4E653C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6949181A-25D8-453A-BCCF-165AD4E653C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33025021-C75B-4424-807E-C2CE4C0E3087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33025021-C75B-4424-807E-C2CE4C0E3087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33025021-C75B-4424-807E-C2CE4C0E3087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33025021-C75B-4424-807E-C2CE4C0E3087}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
