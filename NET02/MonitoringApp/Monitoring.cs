@@ -16,88 +16,85 @@ namespace MonitoringApp
         }
         public void StartRunningTimers()
         {
-            foreach (var url in MonitoringSettings?.Sites)
-            {   
-                //timer starts the method in a new thread   so how many sites that many threads??
-                Timer timer = new Timer(SendRequest, url, 1000, 2000);
-
-                //
-
-            }
-        }
-
-        public async void SendRequest(Object url)
-        {
-            HttpClient client = new HttpClient();
-
-            //HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create((string)url);
             
 
-            var stopWatch = Stopwatch.StartNew();
+            foreach (var url in MonitoringSettings?.Sites)
+            {
+               // var aTimer = new System.Timers.Timer(2000);
 
-            //using network, therefore supposed to be await
-            // HttpWebResponse webResponse = (HttpWebResponse) webRequest.GetResponse();
-            HttpResponseMessage response = await client.GetAsync((string)url);
+                
+                //Task mewTask = Task.Run(() => SendRequest(url));
+                //Task.Delay(2000);
 
-            response.IsSuccessStatusCode;
+            }
+            Timer timer = new Timer(SendRequest, "https://www.bbc.com/", 0, 3000);
+            //timer.Dispose();
+        }
 
-            stopWatch.Stop();
+        public void S(object? _)
+        {
+            SendRequest(_).ConfigureAwait(false);
+        }
+        public async void PrintProgressAsync (object? _)
+        {
+            await Task.Delay(200);
+            Console.WriteLine("Doing more stuff");
+        }
 
-            var timeForResponse = stopWatch.Elapsed;
+        public async void SendRequest(Object? url)
+        {
+            try
+            {
+                Console.WriteLine("Doing more stuff");
+                HttpClient client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(1);
 
-            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+                //var stopWatch = Stopwatch.StartNew();
 
-           await CheckStatus(response.IsSuccessStatusCode, timeForResponse);
+                var response = await client.GetAsync((string?)url).ConfigureAwait(false);
 
-            webResponse.Close();
+                //stopWatch.Stop();
 
-            Console.WriteLine("Does it ever come here?");
+            //    var timeForResponse = stopWatch.Elapsed;
+
+            //    Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+
+            //    await CheckStatus(response.IsSuccessStatusCode, timeForResponse);
+
+            //    Console.WriteLine("End of SendRequest");
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+
+            
+
         }
 
         public async Task CheckStatus(bool webResponse, TimeSpan timeForResponse)
         {
-            if (webResponse.StatusCode == HttpStatusCode.OK && 
-                timeForResponse >= MonitoringSettings?.ResponceTime
+            if (webResponse && 
+                timeForResponse <= MonitoringSettings?.ResponceTime
                 )
             {
-                Console.WriteLine("making the log");
+                Console.WriteLine("writing to the log");
                 Console.WriteLine($"{timeForResponse.Milliseconds},");
             }
             else
             {
-                Console.WriteLine(await SendEmail());
+                await SendEmail();
+                Console.WriteLine("After await SendEmail");
             }
 
-            Console.WriteLine("Possibly doing something else");
+            Console.WriteLine("End of CheckStatus");
         }
 
-        public async Task<string> SendEmail()
+        public async Task  SendEmail()
         {
-            //HttpWebRequest webRequest2 = (HttpWebRequest)WebRequest.Create("https://docs.microsoft.com/en-us/dotnet/csharp/");
-
-            //using network, therefore await
-            //HttpWebResponse webResponse2 = (HttpWebResponse) await webRequest2.GetResponseAsync();
-            //Console.WriteLine($"Should be before printing response {webResponse2.StatusDescription}");
-            Console.WriteLine("Printing after responce");
-            // 
-            //string s = webResponse2.StatusDescription;
-            //webResponse2.Close();
-            return s;
-
-            //
+            //sitas metodas turi but ASYNK AWAIT for sure   
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

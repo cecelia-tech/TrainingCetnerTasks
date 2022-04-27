@@ -28,6 +28,11 @@ using (var mutex = new Mutex(false, "SingletonApp"))
     //logger.Track(e);
     Monitoring mon = new Monitoring();
     mon.StartRunningTimers();
+    //for (int i = 0; i < 30; i++)
+    //{
+    //    await mon.SendRequest("https://www.bbc.com/");
+    //}
+    
     //Thread.Sleep(1000);
     Console.WriteLine("doing something else");
     Console.ReadKey();
