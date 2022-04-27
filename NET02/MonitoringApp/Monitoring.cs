@@ -42,16 +42,18 @@ namespace MonitoringApp
             
             
             var timeForResponse = stopWatch.Elapsed;
-            await CheckStatus(response.IsSuccessStatusCode, timeForResponse);
+            await CheckStatus(response.IsSuccessStatusCode, timeForResponse, response.Content);
         }
 
-        public async Task CheckStatus(bool webResponse, TimeSpan timeForResponse)
+        public async Task CheckStatus(bool webResponse, TimeSpan timeForResponse, HttpContent url)
         {
             if (webResponse &&
                 timeForResponse <= MonitoringSettings?.ResponceTime
                 )
             {
+                //Logger loger = new Logger();
                 Console.WriteLine("writing to the log");
+                //Console.WriteLine(url.ToString().Length);
             }
             else
             {
