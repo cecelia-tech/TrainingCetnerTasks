@@ -16,51 +16,17 @@ using (var mutex = new Mutex(false, "SingletonApp"))
     {
         Console.WriteLine("Only one instance of this app is allowed.");
         //Console.Read();
-        //Thread.Sleep(2000);
+        Thread.Sleep(2000);
         return;
     }
 
-    // main application entry point
-    //Logger logger = new Logger();
-
-    //Example e = new Example();
-
-    //logger.Track(e);
     Monitoring mon = new Monitoring();
     mon.SetTimer();
-    //for (int i = 0; i < 30; i++)
-    //{
-    //    await mon.SendRequest("https://www.bbc.com/");
-    //}
-    
-    //Thread.Sleep(1000);
-    Console.WriteLine("doing something else");
+
     Console.ReadKey();
+
     mutex.ReleaseMutex();
 }
 
-//const string appName = "MyAppName";
-//    bool createdNew;
-// Mutex mutex;
-
-//mutex = new Mutex(true, appName, out createdNew);
-
-//    if (!createdNew)
-//    {
-//        Console.WriteLine(appName + " is already running! Exiting the application.");
-//        Console.ReadKey();
-//        return;
-//    }
-
-//    Console.WriteLine("Continuing with the application");
-//    Console.ReadKey();
-
-
-//Logger logger = new Logger();
-
-//Example e = new Example();
-
-//logger.Track(e);
-//Console.ReadKey();
 
 

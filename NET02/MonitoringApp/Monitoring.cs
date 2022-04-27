@@ -30,19 +30,25 @@ namespace MonitoringApp
         private async Task OnTimedEvent()
         {
             client = new HttpClient();
-            var stopWatch = Stopwatch.StartNew();
-            var response = await client.GetAsync("https://www.bbc.co.uk");
-            stopWatch.Stop();
+            var stopWatch = new Stopwatch();
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            foreach (var url in MonitoringSettings?.Sites)
+            {
+                stopWatch = Stopwatch.StartNew();
+                response = await client.GetAsync(url);
+                stopWatch.Stop();
+            }
+            
+            
             var timeForResponse = stopWatch.Elapsed;
             await CheckStatus(response.IsSuccessStatusCode, timeForResponse);
-            //Console.WriteLine(response.StatusCode);
-            //Console.WriteLine(timeForResponse);
         }
 
         public async Task CheckStatus(bool webResponse, TimeSpan timeForResponse)
         {
             if (webResponse &&
-                timeForResponse >= MonitoringSettings?.ResponceTime
+                timeForResponse <= MonitoringSettings?.ResponceTime
                 )
             {
                 Console.WriteLine("writing to the log");
