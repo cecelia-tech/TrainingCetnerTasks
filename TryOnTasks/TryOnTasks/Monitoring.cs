@@ -9,24 +9,28 @@ namespace TryOnTasks
 {
     internal class Monitoring
     {
-        System.Timers.Timer aTimer;
-
+        public System.Timers.Timer? aTimer { get; set; }
+        HttpClient? client;
 
         internal void SetTimer()
         {
             // Create a timer with a two second interval.
-            aTimer = new System.Timers.Timer(2000);
+            aTimer = new System.Timers.Timer(500);
 
             // Hook up the Elapsed event for the timer. 
-            aTimer.Elapsed += OnTimedEvent;
+            aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
+            //aTimer.Start();
+            GC.KeepAlive(aTimer);
         }
 
-        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        private async Task OnTimedEvent()
         {
-            Console.WriteLine("The Elapsed event was raised at {0:HH:mm:ss.fff}",
-                              e.SignalTime);
+            client = new HttpClient();
+
+            var response = await client.GetAsync("https://www.bbc.co.uk");
+            Console.WriteLine(response.StatusCode);
         }
     }
 }

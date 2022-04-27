@@ -27,7 +27,7 @@ using (var mutex = new Mutex(false, "SingletonApp"))
 
     //logger.Track(e);
     Monitoring mon = new Monitoring();
-    mon.StartRunningTimers();
+    mon.SetTimer();
     //for (int i = 0; i < 30; i++)
     //{
     //    await mon.SendRequest("https://www.bbc.com/");
