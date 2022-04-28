@@ -6,6 +6,11 @@ using log4net.Config;
 
 [assembly: XmlConfigurator(Watch = true)]
 
+//sitas tik paprastam kas ateina is jau esamu settings
+//BasicConfigurator.Configure();
+//sitas jeigu turim savo pasirase kazka custom
+XmlConfigurator.Configure();
+
 using (var mutex = new Mutex(false, "SingletonApp"))
 {
     // TimeSpan.Zero to test the mutex's signal state and
@@ -18,7 +23,6 @@ using (var mutex = new Mutex(false, "SingletonApp"))
         return;
     }
 
-    
     Monitoring mon = new Monitoring();
     mon.SetTimer();
 

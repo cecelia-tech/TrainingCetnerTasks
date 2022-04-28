@@ -11,7 +11,7 @@ namespace Monitor
     public class Monitoring
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(Monitoring));
-        //public Settings? MonitoringSettings { get; set; }
+
         public TimeSpan? CheckInterval { get; set; }
         public TimeSpan? ResponseTime { get; set; }
         public string? Site { get; set; }
@@ -36,17 +36,38 @@ namespace Monitor
 
         public void SetTimer()
         {
-            BasicConfigurator.Configure();
+
             //cia susikursim cancellation token
             //ir persiduot ta token i method OnChengedEvent
             //galimai sita ikist i try catch
             //butinai dadet finaly su TokenSource.Dispose();
-            aTimer = new System.Timers.Timer(CheckInterval.Value.TotalMilliseconds);
-            aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
-            //aTimer.Start();
-            GC.KeepAlive(aTimer);
+            //o gal sitas turi but if'e tel cancellation token
+            WatchFile();
+            try
+            {
+                var token = TokenSource.Token;
+                aTimer = new System.Timers.Timer(CheckInterval.Value.TotalMilliseconds);
+                if (!TokenSource.Token.IsCancellationRequested)
+                {
+                    aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
+                    aTimer.AutoReset = true;
+                    aTimer.Enabled = true;
+                }
+                else
+                {
+                    aTimer.AutoReset = false;
+                    aTimer.Enabled = false;
+                };
+
+                //aTimer.Start();
+                GC.KeepAlive(aTimer);
+               
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message, e);
+            }
+            
         }
 
         private async Task OnTimedEvent()
@@ -69,7 +90,9 @@ namespace Monitor
                 timeForResponse <= ResponseTime
                 )
             {
-                log.Info("changed");
+                log.Error("changed");
+
+               // log.Fatal("Fatal ERROR settings file has been deleted");
             }
             else
             {
@@ -94,29 +117,33 @@ namespace Monitor
         //sita darysim veliau
         public void WatchFile()
         {
-            using (var watcher = new FileSystemWatcher
+            var watcher = new FileSystemWatcher
             {
                 Path = FileToWatchPath,
                 Filter = "App.config"
-            })
-            {
-                //NEED TO THINK ABOUT DIFFERENT METHODS HOW IT WILL REACT TO THE CHANGES
-                //watcher.Changed += someEvent;
-                //watcher.Created += someEvent;
-                //watcher.Deleted += someEvent;
-                //watcher.Renamed += someEvent;
-                //watcher.Error += someEvent;
+            };
+            
+                watcher.Changed += CancellProcess;
+                watcher.Deleted += NotifyOnFileDeletion;
+                watcher.Renamed += CancellProcess;
 
-                //watcher.EnableRaisingEvents = true;
+                watcher.EnableRaisingEvents = true;
                 //Console.ReadLine();
 
-                //watcher.EnableRaisingEvents = false;
-            }
+                watcher.EnableRaisingEvents = false;
+            
         }
 
-        public void CancellProcess()
+        public void CancellProcess(object sender, FileSystemEventArgs e)
+        {
+            log.Error("file has been changed");
+            TokenSource.Cancel();
+        }
+        public void NotifyOnFileDeletion(object sender, FileSystemEventArgs e)
         {
 
+            log.Fatal("Fatal ERROR settings file has been deleted");
+            TokenSource.Cancel();
         }
     }
 }
