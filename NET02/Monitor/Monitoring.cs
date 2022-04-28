@@ -12,21 +12,22 @@ namespace Monitor
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(Monitoring));
         //public Settings? MonitoringSettings { get; set; }
-        public int? CheckInterval { get; set; }
-        public int? ResponseTime { get; set; }
+        public TimeSpan? CheckInterval { get; set; }
+        public TimeSpan? ResponseTime { get; set; }
         public string? Site { get; set; }
         public string? Email { get; set; }
         public string? FileToWatchPath { get; set; }
         public System.Timers.Timer? aTimer { get; set; }
-        HttpClient? client;
+        public HttpClient? Client { get; set; }
+         
         public Monitoring()
         {
             //var JsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("WebsiteSettings.json"));
 
             //MonitoringSettings = JsonSettings?.ToObject<Settings>();
 
-            CheckInterval = int.Parse(ConfigurationManager.AppSettings.Get("CheckInterval"));
-            ResponseTime = int.Parse(ConfigurationManager.AppSettings.Get("ResponceTime"));
+            CheckInterval = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("CheckInterval"));
+            ResponseTime = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("ResponceTime"));
             Site = ConfigurationManager.AppSettings.Get("Site");
             Email = ConfigurationManager.AppSettings.Get("Email");
             FileToWatchPath = ConfigurationManager.AppSettings.Get("Path");
@@ -34,12 +35,8 @@ namespace Monitor
 
         public void SetTimer()
         {
-            //sitas veikia
-            //string sAttr;
-            //sAttr = ConfigurationManager.AppSettings.Get("Key0");
-            //Console.WriteLine("The value of Key0 is " + sAttr);
-
-            aTimer = new System.Timers.Timer(2000);
+            BasicConfigurator.Configure();
+            aTimer = new System.Timers.Timer(CheckInterval.Value.TotalMilliseconds);
             aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
@@ -49,17 +46,13 @@ namespace Monitor
 
         private async Task OnTimedEvent()
         {
-            client = new HttpClient();
+            Client = new HttpClient();
             var stopWatch = new Stopwatch();
             HttpResponseMessage response = new HttpResponseMessage();
 
-            foreach (var url in MonitoringSettings?.Sites)
-            {
-                stopWatch = Stopwatch.StartNew();
-                response = await client.GetAsync(url);
-                stopWatch.Stop();
-            }
-
+            stopWatch = Stopwatch.StartNew();
+            response = await Client.GetAsync(Site);
+            stopWatch.Stop();
 
             var timeForResponse = stopWatch.Elapsed;
             await CheckStatus(response.IsSuccessStatusCode, timeForResponse, response.Content);
@@ -68,14 +61,10 @@ namespace Monitor
         public async Task CheckStatus(bool webResponse, TimeSpan timeForResponse, HttpContent url)
         {
             if (webResponse &&
-                timeForResponse <= MonitoringSettings?.ResponceTime
+                timeForResponse <= ResponseTime
                 )
             {
-                //possibly this one is in the wrong place
-                BasicConfigurator.Configure();
-                //log.Info("Request was successfull");
-                log.Error("changed");
-                //log.Fatal("fhvbfjkd");
+                log.Info("changed");
             }
             else
             {
@@ -102,7 +91,7 @@ namespace Monitor
         {
             using (var watcher = new FileSystemWatcher
             {
-                Path = MonitoringSettings?.Path,
+                Path = FileToWatchPath,
                 Filter = "WebsiteSettings.json"
             })
             {
