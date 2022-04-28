@@ -19,7 +19,8 @@ namespace Monitor
         public string? FileToWatchPath { get; set; }
         public System.Timers.Timer? aTimer { get; set; }
         public HttpClient? Client { get; set; }
-         
+        public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource(); 
+
         public Monitoring()
         {
             //var JsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("WebsiteSettings.json"));
@@ -36,6 +37,10 @@ namespace Monitor
         public void SetTimer()
         {
             BasicConfigurator.Configure();
+            //cia susikursim cancellation token
+            //ir persiduot ta token i method OnChengedEvent
+            //galimai sita ikist i try catch
+            //butinai dadet finaly su TokenSource.Dispose();
             aTimer = new System.Timers.Timer(CheckInterval.Value.TotalMilliseconds);
             aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
             aTimer.AutoReset = true;
@@ -92,7 +97,7 @@ namespace Monitor
             using (var watcher = new FileSystemWatcher
             {
                 Path = FileToWatchPath,
-                Filter = "WebsiteSettings.json"
+                Filter = "App.config"
             })
             {
                 //NEED TO THINK ABOUT DIFFERENT METHODS HOW IT WILL REACT TO THE CHANGES
@@ -107,6 +112,11 @@ namespace Monitor
 
                 //watcher.EnableRaisingEvents = false;
             }
+        }
+
+        public void CancellProcess()
+        {
+
         }
     }
 }
