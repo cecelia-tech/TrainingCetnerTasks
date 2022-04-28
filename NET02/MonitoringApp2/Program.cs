@@ -1,4 +1,6 @@
-﻿using Monitor;
+﻿using log4net;
+using Monitor;
+
 
 using (var mutex = new Mutex(false, "SingletonApp"))
 {
@@ -8,14 +10,13 @@ using (var mutex = new Mutex(false, "SingletonApp"))
     if (isAnotherInstanceOpen)
     {
         Console.WriteLine("Only one instance of this app is allowed.");
-        //Console.Read();
         Thread.Sleep(2000);
         return;
     }
 
+
     Monitoring mon = new Monitoring();
-    //Monitoring mon = new Monitoring();
-    //mon.SetTimer();
+    mon.SetTimer();
 
     Console.ReadKey();
 

@@ -1,10 +1,16 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Configuration;
+using log4net;
+using log4net.Config;
 
+[assembly: XmlConfigurator(Watch = true)]
 namespace Monitor
 {
     public class Monitoring
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Monitoring));
         public Settings? MonitoringSettings { get; set; }
         public System.Timers.Timer? aTimer { get; set; }
         HttpClient? client;
@@ -13,11 +19,13 @@ namespace Monitor
             var JsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("WebsiteSettings.json"));
 
             MonitoringSettings = JsonSettings?.ToObject<Settings>();
+            
         }
 
         public void SetTimer()
         {
-            aTimer = new System.Timers.Timer(1000);
+            
+            aTimer = new System.Timers.Timer(2000);
             aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
@@ -49,9 +57,11 @@ namespace Monitor
                 timeForResponse <= MonitoringSettings?.ResponceTime
                 )
             {
-                //Logger loger = new Logger();
-                Console.WriteLine("writing to the log");
-                //Console.WriteLine(url.ToString().Length);
+                //possibly this one is in the wrong place
+                BasicConfigurator.Configure();
+                log.Info("Request was successfull");
+                log.Error("changed");
+                log.Fatal("fhvbfjkd");
             }
             else
             {
