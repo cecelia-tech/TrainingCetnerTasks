@@ -1,6 +1,10 @@
 ﻿using log4net;
+using System.Configuration;
+using System.Collections.Specialized;
 using Monitor;
+using log4net.Config;
 
+[assembly: XmlConfigurator(Watch = true)]
 
 using (var mutex = new Mutex(false, "SingletonApp"))
 {
@@ -14,7 +18,7 @@ using (var mutex = new Mutex(false, "SingletonApp"))
         return;
     }
 
-
+    
     Monitoring mon = new Monitoring();
     mon.SetTimer();
 

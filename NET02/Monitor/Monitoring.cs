@@ -5,26 +5,40 @@ using System.Configuration;
 using log4net;
 using log4net.Config;
 
-[assembly: XmlConfigurator(Watch = true)]
+
 namespace Monitor
 {
     public class Monitoring
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(Monitoring));
-        public Settings? MonitoringSettings { get; set; }
+        //public Settings? MonitoringSettings { get; set; }
+        public int? CheckInterval { get; set; }
+        public int? ResponseTime { get; set; }
+        public string? Site { get; set; }
+        public string? Email { get; set; }
+        public string? FileToWatchPath { get; set; }
         public System.Timers.Timer? aTimer { get; set; }
         HttpClient? client;
         public Monitoring()
         {
-            var JsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("WebsiteSettings.json"));
+            //var JsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("WebsiteSettings.json"));
 
-            MonitoringSettings = JsonSettings?.ToObject<Settings>();
-            
+            //MonitoringSettings = JsonSettings?.ToObject<Settings>();
+
+            CheckInterval = int.Parse(ConfigurationManager.AppSettings.Get("CheckInterval"));
+            ResponseTime = int.Parse(ConfigurationManager.AppSettings.Get("ResponceTime"));
+            Site = ConfigurationManager.AppSettings.Get("Site");
+            Email = ConfigurationManager.AppSettings.Get("Email");
+            FileToWatchPath = ConfigurationManager.AppSettings.Get("Path");
         }
 
         public void SetTimer()
         {
-            
+            //sitas veikia
+            //string sAttr;
+            //sAttr = ConfigurationManager.AppSettings.Get("Key0");
+            //Console.WriteLine("The value of Key0 is " + sAttr);
+
             aTimer = new System.Timers.Timer(2000);
             aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
             aTimer.AutoReset = true;
@@ -59,9 +73,9 @@ namespace Monitor
             {
                 //possibly this one is in the wrong place
                 BasicConfigurator.Configure();
-                log.Info("Request was successfull");
+                //log.Info("Request was successfull");
                 log.Error("changed");
-                log.Fatal("fhvbfjkd");
+                //log.Fatal("fhvbfjkd");
             }
             else
             {
