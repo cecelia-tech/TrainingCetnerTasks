@@ -103,7 +103,7 @@ namespace Monitor
 
         public async Task SendEmail()
         {
-            await Task.Delay(500);
+            await Mail.SendMessage();
             Console.WriteLine("we are on the SendEmail");
             //sitas metodas turi but ASYNK AWAIT for sure   
         }

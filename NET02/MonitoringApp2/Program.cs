@@ -26,6 +26,8 @@ using (var mutex = new Mutex(false, "SingletonApp"))
     Monitoring mon = new Monitoring();
     mon.SetTimer();
 
+    //Mail.SendMessage();
+
     Console.ReadKey();
 
     mutex.ReleaseMutex();
