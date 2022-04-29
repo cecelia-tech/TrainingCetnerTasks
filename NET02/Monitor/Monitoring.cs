@@ -16,9 +16,10 @@ namespace Monitor
         public string? Site { get; set; }
         public string? Email { get; set; }
         public string? FileToWatchPath { get; set; }
-        public System.Timers.Timer? aTimer { get; set; }
+        public System.Timers.Timer? ATimer { get; set; }
         public HttpClient? Client { get; set; }
         public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource();
+        public FileSystemWatcher Watcher { get; set; }
 
         public Monitoring()
         {
@@ -31,54 +32,75 @@ namespace Monitor
 
         public void SetTimer()
         {
-            WatchFile();
-            //try
-            //{
-                aTimer = new System.Timers.Timer() 
-                {   AutoReset = true, 
-                    Enabled = true, 
+            try
+            {
+                WatchFile();
+
+                ATimer = new System.Timers.Timer()
+                {
+                    AutoReset = true,
+                    Enabled = true,
                     Interval = CheckInterval.Value.TotalMilliseconds
                 };
 
-                aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
+                ATimer.Elapsed += async (obj, e) => await OnTimedEvent();
 
-                //if (token.IsCancellationRequested)
-                //{
-                //    //aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
-                //    //aTimer.AutoReset = true;
-                //    //aTimer.Enabled = true;
-                //    aTimer.Stop();
-                //}
-                //else
-                //{
-                //    aTimer.Stop();
-                //    //aTimer.AutoReset = false;
-                //    //aTimer.Enabled = false;
-                //};
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                ATimer?.Dispose();
+                Client?.Dispose();
+                TokenSource.Dispose();
+                Watcher.Dispose();
+            }
+        }
 
-                //aTimer.Start();
-                //GC.KeepAlive(aTimer);
-               
-            //}
-            //catch (Exception e)
-            //{
-              //  log.Error(e.Message, e);
-            //}
-            
+        public void WatchFile()
+        {
+            Watcher = new FileSystemWatcher
+            {
+                Path = FileToWatchPath,
+                Filter = "App.config"
+            };
+
+            Watcher.NotifyFilter = NotifyFilters.LastWrite
+                                | NotifyFilters.Size;
+
+            Watcher.Changed += CancellProcess;
+            Watcher.Deleted += NotifyOnFileDeletion;
+            Watcher.Renamed += CancellProcess;
+
+            Watcher.EnableRaisingEvents = true;
+        }
+
+        public void CancellProcess(object sender, FileSystemEventArgs e)
+        {
+            TokenSource.Cancel();
+            log.Error("file has been changed");
+        }
+        public void NotifyOnFileDeletion(object sender, FileSystemEventArgs e)
+        {
+            log.Fatal("Fatal ERROR settings file has been deleted");
+            TokenSource.Cancel();
         }
 
         private async Task OnTimedEvent()
         {
-
             var token = TokenSource.Token;
+
             if (token.IsCancellationRequested)
             {
-                aTimer.Stop();
+                ATimer.Stop();
             }
+
             Client = new HttpClient();
             var stopWatch = new Stopwatch();
             HttpResponseMessage response = new HttpResponseMessage();
-
             stopWatch = Stopwatch.StartNew();
             response = await Client.GetAsync(Site);
             stopWatch.Stop();
@@ -103,38 +125,9 @@ namespace Monitor
 
         public async Task SendEmail()
         {
-            await Mail.SendMessage();
+           // await Mail.SendMessage();
+            await Task.Delay(500);
             Console.WriteLine("we are on the SendEmail");
-            //sitas metodas turi but ASYNK AWAIT for sure   
-        }
-
-
-        public void WatchFile()
-        {
-            //dispose negalima cia
-           var Watcher = new FileSystemWatcher
-            {
-                Path = FileToWatchPath,
-                Filter = "App.config"
-            };
-
-                Watcher.Changed += CancellProcess;
-                Watcher.Deleted += NotifyOnFileDeletion;
-                Watcher.Renamed += CancellProcess;
-
-                Watcher.EnableRaisingEvents = true;
-        }
-
-        public void CancellProcess(object sender, FileSystemEventArgs e)
-        {
-            TokenSource.Cancel();
-            log.Error("file has been changed");
-        }
-        public void NotifyOnFileDeletion(object sender, FileSystemEventArgs e)
-        {
-
-            log.Fatal("Fatal ERROR settings file has been deleted");
-            TokenSource.Cancel();
         }
     }
 }
