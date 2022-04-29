@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Configuration;
 using log4net;
-using log4net.Config;
 
 
 namespace Monitor
@@ -19,14 +18,10 @@ namespace Monitor
         public string? FileToWatchPath { get; set; }
         public System.Timers.Timer? aTimer { get; set; }
         public HttpClient? Client { get; set; }
-        public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource(); 
+        public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource();
 
         public Monitoring()
         {
-            //var JsonSettings = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("WebsiteSettings.json"));
-
-            //MonitoringSettings = JsonSettings?.ToObject<Settings>();
-
             CheckInterval = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("CheckInterval"));
             ResponseTime = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("ResponceTime"));
             Site = ConfigurationManager.AppSettings.Get("Site");
@@ -36,42 +31,50 @@ namespace Monitor
 
         public void SetTimer()
         {
-
-            //cia susikursim cancellation token
-            //ir persiduot ta token i method OnChengedEvent
-            //galimai sita ikist i try catch
-            //butinai dadet finaly su TokenSource.Dispose();
-            //o gal sitas turi but if'e tel cancellation token
             WatchFile();
-            try
-            {
-                var token = TokenSource.Token;
-                aTimer = new System.Timers.Timer(CheckInterval.Value.TotalMilliseconds);
-                if (!TokenSource.Token.IsCancellationRequested)
-                {
-                    aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
-                    aTimer.AutoReset = true;
-                    aTimer.Enabled = true;
-                }
-                else
-                {
-                    aTimer.AutoReset = false;
-                    aTimer.Enabled = false;
+            //try
+            //{
+                aTimer = new System.Timers.Timer() 
+                {   AutoReset = true, 
+                    Enabled = true, 
+                    Interval = CheckInterval.Value.TotalMilliseconds
                 };
 
+                aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
+
+                //if (token.IsCancellationRequested)
+                //{
+                //    //aTimer.Elapsed += async (obj, e) => await OnTimedEvent();
+                //    //aTimer.AutoReset = true;
+                //    //aTimer.Enabled = true;
+                //    aTimer.Stop();
+                //}
+                //else
+                //{
+                //    aTimer.Stop();
+                //    //aTimer.AutoReset = false;
+                //    //aTimer.Enabled = false;
+                //};
+
                 //aTimer.Start();
-                GC.KeepAlive(aTimer);
+                //GC.KeepAlive(aTimer);
                
-            }
-            catch (Exception e)
-            {
-                log.Error(e.Message, e);
-            }
+            //}
+            //catch (Exception e)
+            //{
+              //  log.Error(e.Message, e);
+            //}
             
         }
 
         private async Task OnTimedEvent()
         {
+
+            var token = TokenSource.Token;
+            if (token.IsCancellationRequested)
+            {
+                aTimer.Stop();
+            }
             Client = new HttpClient();
             var stopWatch = new Stopwatch();
             HttpResponseMessage response = new HttpResponseMessage();
@@ -90,17 +93,13 @@ namespace Monitor
                 timeForResponse <= ResponseTime
                 )
             {
-                log.Error("changed");
-
-               // log.Fatal("Fatal ERROR settings file has been deleted");
+                log.Error("Successfull, writing a log");
             }
             else
             {
                 await SendEmail();
             }
         }
-
-
 
         public async Task SendEmail()
         {
@@ -110,34 +109,26 @@ namespace Monitor
         }
 
 
-
-
-
-
-        //sita darysim veliau
         public void WatchFile()
         {
-            var watcher = new FileSystemWatcher
+            //dispose negalima cia
+           var Watcher = new FileSystemWatcher
             {
                 Path = FileToWatchPath,
                 Filter = "App.config"
             };
-            
-                watcher.Changed += CancellProcess;
-                watcher.Deleted += NotifyOnFileDeletion;
-                watcher.Renamed += CancellProcess;
 
-                watcher.EnableRaisingEvents = true;
-                //Console.ReadLine();
+                Watcher.Changed += CancellProcess;
+                Watcher.Deleted += NotifyOnFileDeletion;
+                Watcher.Renamed += CancellProcess;
 
-                watcher.EnableRaisingEvents = false;
-            
+                Watcher.EnableRaisingEvents = true;
         }
 
         public void CancellProcess(object sender, FileSystemEventArgs e)
         {
-            log.Error("file has been changed");
             TokenSource.Cancel();
+            log.Error("file has been changed");
         }
         public void NotifyOnFileDeletion(object sender, FileSystemEventArgs e)
         {
