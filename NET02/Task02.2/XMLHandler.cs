@@ -9,6 +9,7 @@ namespace Task02._2
         public List<User> GetUsers(string pathToData)
         {
             XElement usersInXML = XElement.Load(pathToData);
+
             List<User> users = new List<User>();
 
             foreach (var userNode in usersInXML.Elements("login"))

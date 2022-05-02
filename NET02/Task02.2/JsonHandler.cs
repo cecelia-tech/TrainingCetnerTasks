@@ -21,7 +21,6 @@ namespace Task02._2
 
                 users.Add(JsonSerializer.Deserialize<User>(jsonString));
             }
-
             return users;
         }
 
@@ -31,7 +30,7 @@ namespace Task02._2
             {
                 CreateDirectory($"Config\\{user.Name}");
 
-                using (var fs = File.Create($"Config\\{user.Name}\\appsettins.json"))
+                using (var fs = File.Create($"Config\\{user.Name}\\appsettings.json"))
                 {
                     User correctedUser = new User(user.Name);
                     correctedUser.WindowSettings = user.WindowSettings.Select(window => window.GetCorrectedWindowSettings()).ToList();
@@ -48,6 +47,5 @@ namespace Task02._2
                 Directory.CreateDirectory(folderTitle);
             }
         }
-
     }
 }
