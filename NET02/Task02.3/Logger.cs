@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Reflection;
 using ListenerInterface;
 using TrackingComponents;
@@ -15,7 +12,7 @@ namespace Task02._3
             LoadAssemblies(LoadJason());
         }
 
-        public List<IListener> listeners { get; set; } = new List<IListener>(); 
+        private List<IListener> Listeners { get; set; } = new List<IListener>(); 
 
         public List<string> LoadJason()
         {
@@ -37,7 +34,7 @@ namespace Task02._3
                     if (type.GetInterface("IListener") is not null)
                     {
                         IListener listener = (IListener)Activator.CreateInstance(type)!;
-                        listeners.Add(listener);
+                        Listeners.Add(listener);
                     }
                 }
             }
@@ -69,11 +66,10 @@ namespace Task02._3
 
         public void WriteInfoToFiles(string collectedInfo, int logLevel)
         {
-            foreach (var listener in listeners)
+            foreach (var listener in Listeners)
             {
                 listener.Write(collectedInfo, logLevel);
             }
-            Console.WriteLine(collectedInfo + logLevel);
         }
     }
 }
