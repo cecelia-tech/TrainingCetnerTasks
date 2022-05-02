@@ -7,9 +7,9 @@ using log4net;
 
 namespace Monitor
 {
-    public class Monitoring
+    public class WebMonitoring
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Monitoring));
+        private static readonly ILog log = LogManager.GetLogger(typeof(WebMonitoring));
 
         public TimeSpan? CheckInterval { get; set; }
         public TimeSpan? ResponseTime { get; set; }
@@ -21,7 +21,7 @@ namespace Monitor
         public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource();
         public FileSystemWatcher Watcher { get; set; }
 
-        public Monitoring()
+        public WebMonitoring()
         {
             CheckInterval = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("CheckInterval"));
             ResponseTime = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("ResponceTime"));
@@ -30,7 +30,7 @@ namespace Monitor
             FileToWatchPath = ConfigurationManager.AppSettings.Get("Path");
         }
 
-        public void SetTimer()
+        public void StartSiteMonitoring()
         {
             try
             {
@@ -95,7 +95,7 @@ namespace Monitor
 
             if (token.IsCancellationRequested)
             {
-                ATimer.Stop();
+                ATimer? .Stop();
             }
 
             Client = new HttpClient();

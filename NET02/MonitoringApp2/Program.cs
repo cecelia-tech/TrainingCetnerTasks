@@ -18,8 +18,8 @@ using (var mutex = new Mutex(false, "SingletonApp"))
         return;
     }
 
-    Monitoring mon = new Monitoring();
-    mon.SetTimer();
+    WebMonitoring mon = new WebMonitoring();
+    mon.StartSiteMonitoring();
 
     mutex.ReleaseMutex();
 }
