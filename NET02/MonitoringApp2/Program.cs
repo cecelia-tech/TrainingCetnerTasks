@@ -19,7 +19,8 @@ using (var mutex = new Mutex(false, "SingletonApp"))
     }
 
     WebMonitoring mon = new WebMonitoring();
-    mon.StartSiteMonitoring();
+    //mon.StartSiteMonitoring();
+    mon.GetSiteSettings();
 
     mutex.ReleaseMutex();
 }

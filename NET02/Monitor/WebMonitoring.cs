@@ -11,11 +11,7 @@ namespace Monitor
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(WebMonitoring));
 
-        public TimeSpan? CheckInterval { get; set; }
-        public TimeSpan? ResponseTime { get; set; }
-        public string? Site { get; set; }
-        public string? Email { get; set; }
-        public string? FileToWatchPath { get; set; }
+        
         public System.Timers.Timer? ATimer { get; set; }
         public HttpClient? Client { get; set; }
         public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource();
@@ -23,13 +19,12 @@ namespace Monitor
 
         public WebMonitoring()
         {
-            CheckInterval = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("CheckInterval"));
-            ResponseTime = TimeSpan.Parse(ConfigurationManager.AppSettings.Get("ResponceTime"));
-            Site = ConfigurationManager.AppSettings.Get("Site");
-            Email = ConfigurationManager.AppSettings.Get("Email");
-            FileToWatchPath = ConfigurationManager.AppSettings.Get("Path");
         }
 
+        public void GetSiteSettings()
+        {
+            var somethiung = ConfigurationManager.GetSection("WebSites") ;
+        }
         public void StartSiteMonitoring()
         {
             try
@@ -40,7 +35,7 @@ namespace Monitor
                 {
                     AutoReset = true,
                     Enabled = true,
-                    Interval = CheckInterval.Value.TotalMilliseconds
+                    //Interval = CheckInterval.Value.TotalMilliseconds
                 };
 
                 ATimer.Elapsed += async (obj, e) => await OnTimedEvent();
@@ -64,7 +59,7 @@ namespace Monitor
         {
             Watcher = new FileSystemWatcher
             {
-                Path = FileToWatchPath,
+                //Path = FileToWatchPath,
                 Filter = "App.config"
             };
 
@@ -102,7 +97,7 @@ namespace Monitor
             var stopWatch = new Stopwatch();
             HttpResponseMessage response = new HttpResponseMessage();
             stopWatch = Stopwatch.StartNew();
-            response = await Client.GetAsync(Site);
+            //response = await Client.GetAsync(Site);
             stopWatch.Stop();
 
             var timeForResponse = stopWatch.Elapsed;
@@ -111,16 +106,16 @@ namespace Monitor
 
         public async Task CheckStatus(bool webResponse, TimeSpan timeForResponse, HttpContent url)
         {
-            if (webResponse &&
-                timeForResponse <= ResponseTime
-                )
-            {
-                log.Error("Successfull, writing a log");
-            }
-            else
-            {
-                await SendEmail();
-            }
+            //if (webResponse &&
+            //    timeForResponse <= ResponseTime
+            //    )
+            //{
+            //    log.Error("Successfull, writing a log");
+            //}
+            //else
+            //{
+            //    await SendEmail();
+            //}
         }
 
         public async Task SendEmail()
