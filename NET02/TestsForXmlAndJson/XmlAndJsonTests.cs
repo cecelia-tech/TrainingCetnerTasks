@@ -19,8 +19,8 @@ namespace TestsForXmlAndJson
             Bob.AddWindowSettings(new WindowSettings("nnnnnn", 50, 60, 70, 80));
             Bob.AddWindowSettings(new WindowSettings("sample2", 200, null, 30, 60));
 
-            XMLLoader loader = new XMLLoader();
-            loader.SaveUsersToXml(new List<User> { Sam, Bob });
+            XMLHandler loader = new XMLHandler();
+            loader.SaveUsers(new List<User> { Sam, Bob });
 
             Assert.IsTrue(File.Exists($"C:\\Users\\VitaGriciute\\source\\repos\\" +
                 $"TrainingCetnerTasks\\NET02\\Task02.2\\bin\\Debug\\net6.0\\Config" +
@@ -38,8 +38,8 @@ namespace TestsForXmlAndJson
             Bob.AddWindowSettings(new WindowSettings("nnnnnn", 50, 60, 70, 80));
             Bob.AddWindowSettings(new WindowSettings("sample2", 200, null, 30, 60));
 
-            XMLLoader loader = new XMLLoader();
-            loader.SaveUsersToXml(new List<User> { Sam, Bob });
+            XMLHandler loader = new XMLHandler();
+            loader.SaveUsers(new List<User> { Sam, Bob });
 
             List<User> users = (loader.GetUsers($"C:\\Users\\VitaGriciute\\source\\repos\\" +
                 $"TrainingCetnerTasks\\NET02\\Task02.2\\bin\\Debug\\net6.0\\Config" +
@@ -64,19 +64,19 @@ namespace TestsForXmlAndJson
             Bob.AddWindowSettings(new WindowSettings("nnnnnn", 50, 60, 70, 80));
             Bob.AddWindowSettings(new WindowSettings("sample2", 200, null, 30, 60));
 
-            XMLLoader loader = new XMLLoader();
-            loader.SaveUsersToXml(new List<User> { Sam, Bob });
+            XMLHandler loader = new XMLHandler();
+            loader.SaveUsers(new List<User> { Sam, Bob });
             Assert.IsNotNull(loader.GetXmlInfoForDisplay("Config\\writerSample.xml"));
         }
 
         [TestMethod]
         public void TestJsonSaveUsers()
         {
-            JSONSaver jasonSaver = new JSONSaver();
+            JsonHandler jasonSaver = new JsonHandler();
 
-            jasonSaver.SaveUsers($"C:\\Users\\VitaGriciute\\source\\repos\\" +
-                $"TrainingCetnerTasks\\NET02\\Task02.2\\bin\\Debug\\net6.0\\Config" +
-                $"\\writerSample.xml");
+            //jasonSaver.SaveUsers($"C:\\Users\\VitaGriciute\\source\\repos\\" +
+            //    $"TrainingCetnerTasks\\NET02\\Task02.2\\bin\\Debug\\net6.0\\Config" +
+            //    $"\\writerSample.xml");
 
             Assert.IsTrue(Directory.Exists($"C:\\Users\\VitaGriciute\\source\\repos\\TrainingCetnerTasks\\NET02\\Task02.2\\bin\\Debug\\net6.0\\Config\\Bob"));
         }

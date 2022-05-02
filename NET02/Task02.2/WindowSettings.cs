@@ -8,7 +8,6 @@ using System.Xml.Serialization;
 namespace Task02._2
 {
     [Serializable]
-    //[XmlRoot("window")]
     public class WindowSettings
     {
         public WindowSettings()
@@ -30,19 +29,12 @@ namespace Task02._2
             Height = height;
         }
 
-        //[XmlAttribute("title")]
         public string Title { get; set; }
-        //[XmlElement(ElementName = "top")]
         public int? Top { get; set; }
-        //[XmlElement(ElementName = "left")]
         public int? Left { get; set; }
-        //[XmlElement(ElementName = "width")]
         public int? Width { get; set; }
-        //[XmlElement(ElementName = "height")]
         public int? Height { get; set; }
 
-        //pasidarom nauja metoda, kuris atiduos nauja object su naujom reiksmem saugojimui
-        //cia tikriausiai kai patikrinsim ar yra visos dalys reikiamos
         public WindowSettings GetCorrectedWindowSettings()
         {
             return new WindowSettings(Title, Top ?? 0, Left ?? 0, Width ?? 400, Height ?? 150);

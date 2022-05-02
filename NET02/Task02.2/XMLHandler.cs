@@ -4,11 +4,11 @@ using System.Xml.Linq;
 
 namespace Task02._2
 {
-    public class XMLLoader : IRepository
+    public class XMLHandler : IRepository
     {
-        public List<User> GetUsers(string xmlPath)
+        public List<User> GetUsers(string pathToData)
         {
-            XElement usersInXML = XElement.Load(xmlPath);
+            XElement usersInXML = XElement.Load(pathToData);
             List<User> users = new List<User>();
 
             foreach (var userNode in usersInXML.Elements("login"))
@@ -26,56 +26,10 @@ namespace Task02._2
                 }
                 users.Add(user);
             }
-
             return users;
         }
 
-        public string GetXmlInfoForDisplay(string xmlPath)
-        {
-            XElement userInfo = XElement.Load(xmlPath);
-
-            StringBuilder infoToPrint = new StringBuilder();
-
-            foreach (var user in userInfo.Elements("login"))
-            {
-                infoToPrint.Append($"{(IsLoginCorrect(user) == true ? "Correct" : "Incorrect")} \n");
-                infoToPrint.Append($"Login: {user.Attribute("name")?.Value} \n");
-                
-                foreach (var window in user.Elements("window"))
-                {
-                    infoToPrint.Append($"\t{window.Attribute("title")?.Value}");
-
-                    var windowNode = window.Descendants();
-
-                    infoToPrint.Append($"({(windowNode.Any(x => x.Name == "top") != false ? windowNode.First(x => x.Name == "top").Value : '?') }," +
-                        $"{(windowNode.Any(x => x.Name == "left") != false ? windowNode.First(x => x.Name == "left").Value : '?') }," +
-                        $"{(windowNode.Any(x => x.Name == "width") != false ? windowNode.First(x => x.Name == "width").Value : '?') }," +
-                        $"{(windowNode.Any(x => x.Name == "height") != false ? windowNode.First(x => x.Name == "height").Value : '?') }" +
-                        $")\n");
-                }
-                 
-            }
-
-            return infoToPrint.ToString();
-        }
-        public bool IsLoginCorrect(XElement user)
-        {
-            return CountUserMain(user) == 1 &&
-                (CountElementsInMainWindow(user) == 4 ||
-                CountElementsInMainWindow(user) == 0);
-        }
-
-        public int CountUserMain(XElement user)
-        {
-            return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Count();
-        }
-
-        public int CountElementsInMainWindow(XElement user)
-        {
-            return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Descendants().Count();
-        }
-
-        public void SaveUsersToXml(List<User> users)
+        public void SaveUsers(List<User> users)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
@@ -127,15 +81,59 @@ namespace Task02._2
 
                         writer.WriteEndElement();   //end window
                     }
-                    
+
                     writer.WriteEndElement();  // end user
                 }
                 writer.WriteEndElement();    //ends config
-                writer.WriteEndDocument(); 
+                writer.WriteEndDocument();
             }
         }
 
-        void CreateDirectory(string folderTitle)
+        public string GetXmlInfoForDisplay(string path)
+        {
+            XElement userInfo = XElement.Load(path);
+
+            StringBuilder infoToPrint = new StringBuilder();
+
+            foreach (var user in userInfo.Elements("login"))
+            {
+                infoToPrint.Append($"{(IsLoginCorrect(user) == true ? "Correct" : "Incorrect")} \n");
+                infoToPrint.Append($"Login: {user.Attribute("name")?.Value} \n");
+                
+                foreach (var window in user.Elements("window"))
+                {
+                    infoToPrint.Append($"\t{window.Attribute("title")?.Value}");
+
+                    var windowNode = window.Descendants();
+
+                    infoToPrint.Append($"({(windowNode.Any(x => x.Name == "top") != false ? windowNode.First(x => x.Name == "top").Value : '?') }," +
+                        $"{(windowNode.Any(x => x.Name == "left") != false ? windowNode.First(x => x.Name == "left").Value : '?') }," +
+                        $"{(windowNode.Any(x => x.Name == "width") != false ? windowNode.First(x => x.Name == "width").Value : '?') }," +
+                        $"{(windowNode.Any(x => x.Name == "height") != false ? windowNode.First(x => x.Name == "height").Value : '?') }" +
+                        $")\n");
+                }
+            }
+            return infoToPrint.ToString();
+        }
+
+        private bool IsLoginCorrect(XElement user)
+        {
+            return CountUserMain(user) == 1 &&
+                (CountElementsInMainWindow(user) == 4 ||
+                CountElementsInMainWindow(user) == 0);
+        }
+
+        private int CountUserMain(XElement user)
+        {
+            return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Count();
+        }
+
+        private int CountElementsInMainWindow(XElement user)
+        {
+            return user.Elements("window").Where(window => window.Attribute("title")?.Value == "main").Descendants().Count();
+        }
+
+        private void CreateDirectory(string folderTitle)
         {
             if (!Directory.Exists(folderTitle))
             {

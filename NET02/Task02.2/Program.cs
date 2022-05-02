@@ -1,8 +1,4 @@
-﻿using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Task02._2;
+﻿using Task02._2;
 
 User Sam = new User("Sam");
 Sam.AddWindowSettings(new WindowSettings("main", 50, 60, 70, 80));
@@ -12,24 +8,12 @@ User Bob = new User("Bob");
 Bob.AddWindowSettings(new WindowSettings("nnnnnn", 50, 60, 70, 80));
 Bob.AddWindowSettings(new WindowSettings("sample2", 200, null, 30, 60));
 
-XMLLoader loader = new XMLLoader();
-loader.SaveUsersToXml(new List<User> { Sam, Bob});
+XMLHandler xmlHandler = new XMLHandler();
+xmlHandler.SaveUsers(new List<User> { Sam, Bob});
 
-List<User> users = (loader.GetUsers("Config\\writerSample.xml"));
+Console.WriteLine(xmlHandler.GetXmlInfoForDisplay("Config\\writerSample.xml"));
 
-foreach (var user in users)
-{
-    Console.WriteLine(user.Name);
-    foreach (var window in user.WindowSettings)
-    {
-        Console.WriteLine(window.Title);
-        Console.WriteLine(window.Height);
-    }
-}
+JsonHandler jasonHandler = new JsonHandler();
 
-Console.WriteLine(loader.GetXmlInfoForDisplay("Config\\writerSample.xml"));
-
-
-JSONSaver jasonSaver = new JSONSaver();
-
-jasonSaver.SaveUsers("Config\\writerSample.xml");
+jasonHandler.SaveUsers(xmlHandler.GetUsers("Config\\writerSample.xml"));
+xmlHandler.SaveUsers(jasonHandler.GetUsers("Config"));

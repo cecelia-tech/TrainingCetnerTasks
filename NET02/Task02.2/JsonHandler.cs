@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Text.Json;
 
 namespace Task02._2
 {
-    public class JSONSaver : IRepository
+    public class JsonHandler : IRepository
     {
+        //when calling this method, write only the main directory name where all json files exists,
+        //since they are saved in the different directories
         public List<User> GetUsers(string jsonPath)
         {
-            if (!Directory.Exists("Config"))
+            if (!Directory.Exists(jsonPath))
             {
                 throw new Exception("There is no data to read.");
             }
 
             List<User> users = new List<User>();
 
-            foreach (var directory in Directory.EnumerateDirectories("Config"))
+            foreach (var directory in Directory.EnumerateDirectories(jsonPath))
             {
                 string jsonString = File.ReadAllText(directory + "\\appsettings.json");
 
@@ -29,12 +25,8 @@ namespace Task02._2
             return users;
         }
 
-        public void SaveUsers(string xmlPath)
+        public void SaveUsers(List<User> users)
         {
-            XMLLoader loadUsers = new XMLLoader();
-
-            List<User> users = loadUsers.GetUsers(xmlPath);
-
             foreach (var user in users)
             {
                 CreateDirectory($"Config\\{user.Name}");
@@ -54,7 +46,6 @@ namespace Task02._2
             if (!Directory.Exists(folderTitle))
             {
                 Directory.CreateDirectory(folderTitle);
-                
             }
         }
 

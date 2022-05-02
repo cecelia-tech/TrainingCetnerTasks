@@ -7,19 +7,9 @@ using System.Xml.Serialization;
 
 namespace Task02._2
 {
-    //[XmlInclude(typeof(WindowSettings))]
     [Serializable]
-    //[XmlRoot(ElementName = "window")]
-    //[XmlRoot("login")]
     public class User
     {
-        //our user can have multiple window settings
-        //[XmlArray("windows")]
-        //[XmlArrayItem("window")]
-        //[XmlArrayItem(Attribute = "g")]
-        //[XmlElement("window")]
-        //public List<WindowSettings> windowSettings = new List<WindowSettings>();
-
         public User()
         {
         }
@@ -29,7 +19,6 @@ namespace Task02._2
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        //[XmlAttribute("name")]
         public string Name { get; set; }
         public List<WindowSettings> WindowSettings { get; set; } = new List<WindowSettings>();
 
