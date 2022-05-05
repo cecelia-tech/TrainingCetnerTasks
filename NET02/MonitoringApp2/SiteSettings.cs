@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Monitor
+namespace MonitoringApp2
 {
     public class SiteSettings
     {
