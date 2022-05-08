@@ -68,18 +68,5 @@ namespace MonitoringApp2.WebSitesConfiguration
                 base["email"] = value;
             }
         }
-
-        [ConfigurationProperty("path", IsRequired = true)]
-        public string Path
-        {
-            get
-            {
-                return (string)base["path"];
-            }
-            set
-            {
-                base["path"] = value;
-            }
-        }
     }
 }

@@ -10,9 +10,6 @@ using MonitoringApp2.WebSitesConfiguration;
 
 XmlConfigurator.Configure();
 
-//mano cancellation token turi but cia
-//taip pat ir filewatcher, nes taip nukillinsiu visus vienu metu
-//atcancellint threada o ne timeri??
 using (var mutex = new Mutex(false, "MonitoringApp"))
 {
     bool isAnotherInstanceOpen = !mutex.WaitOne(TimeSpan.Zero);
@@ -23,22 +20,28 @@ using (var mutex = new Mutex(false, "MonitoringApp"))
         return;
     }
 
-    string path = "C:\\Users\\VitaGriciute\\source\\repos\\TrainingCetnerTasks\\NET02\\MonitoringApp2";
+    string path = "C:\\Users\\VitaGriciute\\source\\repos\\TrainingCetnerTasks\\NET02\\MonitoringApp2\\bin\\Debug\\net6.0";
 
     CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-    FileSystemWatcher watcher = new FileSystemWatcher
+    var token = tokenSource.Token;
+
+    using FileSystemWatcher watcher = new FileSystemWatcher
     {
+        //directory get current
         Path = path,
-        Filter = "App.config"
+        Filter = "MonitoringApp2.dll.config"
     };
 
-    watcher.NotifyFilter = NotifyFilters.LastWrite
-                       | NotifyFilters.Size;
+    watcher.NotifyFilter = NotifyFilters.Attributes |
+    NotifyFilters.CreationTime |
+    NotifyFilters.FileName |
+    NotifyFilters.LastAccess |
+    NotifyFilters.LastWrite |
+    NotifyFilters.Size |
+    NotifyFilters.Security;
 
     watcher.Changed += CancellProcess;
-    watcher.Deleted += CancellProcess;
-    watcher.Renamed += CancellProcess;
 
     watcher.EnableRaisingEvents = true;
 
@@ -46,27 +49,82 @@ using (var mutex = new Mutex(false, "MonitoringApp"))
     {
         tokenSource.Cancel();
         Console.WriteLine("Process has been cancelled");
-        //log.Error("file has been changed");
     }
 
-    var webconfig = (WebsitesConfig)ConfigurationManager.GetSection("webSettings");
-
-    foreach (WebsitesInstanceElement website in webconfig.Websites)
+    List<WebMonitoring> WebMonitorings()
     {
-        WebMonitoring siteMonitoring = new WebMonitoring(
-            website.CheckInterval,
-            website.ResponceTime,
-            website.Site,
-            website.Email,
-            website.Path,
-            website.Title);
+        List<WebMonitoring> webMonitorings = new List<WebMonitoring>();
 
-       // ThreadPool.QueueUserWorkItem(new WaitCallback(siteMonitoring.StartSiteMonitoring), tokenSource.Token);
-        new Thread(siteMonitoring.StartSiteMonitoring).Start(tokenSource.Token);
+        ConfigurationManager.RefreshSection("webSettings");
+
+        var webconfig = (WebsitesConfig)ConfigurationManager.GetSection("webSettings");
+
+        foreach (WebsitesInstanceElement website in webconfig.Websites)
+        {
+            webMonitorings.Add(new WebMonitoring(
+                website.CheckInterval,
+                website.ResponceTime,
+                website.Site,
+                website.Email,
+                website.Title));
+        }
+
+        return webMonitorings;
+    }
+    //var settings = WebMonitorings();
+
+    void RunChecks()
+    {
+        var settings = WebMonitorings();
+
+        foreach (var website in settings)
+        {
+            //try
+            //{
+                var task = Task.Run (async () =>
+                {
+                    while (!token.IsCancellationRequested)
+                    {
+                        await website.OnTimedEvent();
+
+                        await Task.Delay(website.CheckInterval);
+
+                        //token.ThrowIfCancellationRequested();
+                    }
+                }, token);
+
+             //Console.WriteLine(task.Status);
+
+            //if (token.IsCancellationRequested)
+            //{
+            //    //Task.Delay(1000);
+            //    //task.Wait();
+            //    Console.WriteLine("BREAK");
+            //    //break;
+            //}
+        }
     }
 
-    
-    
-    Console.ReadKey();
-    mutex.ReleaseMutex();
+
+
+    RunChecks();
+
+    while (true)
+    {
+        if (token.IsCancellationRequested)
+        {
+            await Task.Delay(2000);
+            tokenSource.Dispose();
+            tokenSource = new CancellationTokenSource();
+            token = tokenSource.Token;
+            await Task.Delay(4000);
+            RunChecks();
+        }
+        else
+        {
+            continue;
+        }
+
+    }
+        mutex.ReleaseMutex();
 }
