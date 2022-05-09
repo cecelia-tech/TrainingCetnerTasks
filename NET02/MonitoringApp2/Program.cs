@@ -1,9 +1,6 @@
-﻿using log4net;
-using System.Configuration;
-using System.Collections.Specialized;
+﻿using System.Configuration;
 using Monitor;
 using log4net.Config;
-using MonitoringApp2;
 using MonitoringApp2.WebSitesConfiguration;
 
 [assembly: XmlConfigurator(Watch = true)]
