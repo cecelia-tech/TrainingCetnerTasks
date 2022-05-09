@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MailKit;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 
 namespace Monitor
 {
     public static class Mail
     {
-        public static async Task SendMessage()
+        public static async Task SendMessage(string email)
         {
             MimeMessage message  = new MimeMessage();
             message.From.Add(new MailboxAddress("Cecelia", "ceceliajohnson777@gmail.com"));
 
-            message.To.Add(MailboxAddress.Parse("ceceliajohnson777@gmail.com"));
+            message.To.Add(MailboxAddress.Parse(email));
 
             message.Subject = "Testing";
 

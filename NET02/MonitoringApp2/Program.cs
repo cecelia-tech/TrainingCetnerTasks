@@ -20,16 +20,11 @@ using (var mutex = new Mutex(false, "MonitoringApp"))
         return;
     }
 
-    string path = "C:\\Users\\VitaGriciute\\source\\repos\\TrainingCetnerTasks\\NET02\\MonitoringApp2\\bin\\Debug\\net6.0";
-
     CancellationTokenSource tokenSource = new CancellationTokenSource();
-
-    var token = tokenSource.Token;
 
     using FileSystemWatcher watcher = new FileSystemWatcher
     {
-        //directory get current
-        Path = path,
+        Path = Directory.GetCurrentDirectory(),
         Filter = "MonitoringApp2.dll.config"
     };
 
@@ -41,14 +36,41 @@ using (var mutex = new Mutex(false, "MonitoringApp"))
     NotifyFilters.Size |
     NotifyFilters.Security;
 
-    watcher.Changed += CancellProcess;
+    watcher.Changed += RestartProcess;
 
     watcher.EnableRaisingEvents = true;
 
-    void CancellProcess(object sender, FileSystemEventArgs e)
+    void RestartProcess(object sender, FileSystemEventArgs e)
     {
         tokenSource.Cancel();
-        Console.WriteLine("Process has been cancelled");
+
+        tokenSource.Dispose();
+        tokenSource = new CancellationTokenSource();
+
+        RunChecks(tokenSource.Token);
+    }
+
+    RunChecks(tokenSource.Token);
+
+    void RunChecks(CancellationToken token)
+    {
+        var settings = WebMonitorings();
+
+        foreach (var website in settings)
+        {
+            var task = Task.Run(async () =>
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    await website.OnTimedEvent();
+
+                    await Task.Delay(website.CheckInterval, token);
+                }
+
+                website.Dispose();
+
+            }, token);
+        }
     }
 
     List<WebMonitoring> WebMonitorings()
@@ -71,60 +93,8 @@ using (var mutex = new Mutex(false, "MonitoringApp"))
 
         return webMonitorings;
     }
-    //var settings = WebMonitorings();
 
-    void RunChecks()
-    {
-        var settings = WebMonitorings();
+    await Task.Delay(TimeSpan.FromDays(1));
 
-        foreach (var website in settings)
-        {
-            //try
-            //{
-                var task = Task.Run (async () =>
-                {
-                    while (!token.IsCancellationRequested)
-                    {
-                        await website.OnTimedEvent();
-
-                        await Task.Delay(website.CheckInterval);
-
-                        //token.ThrowIfCancellationRequested();
-                    }
-                }, token);
-
-             //Console.WriteLine(task.Status);
-
-            //if (token.IsCancellationRequested)
-            //{
-            //    //Task.Delay(1000);
-            //    //task.Wait();
-            //    Console.WriteLine("BREAK");
-            //    //break;
-            //}
-        }
-    }
-
-
-
-    RunChecks();
-
-    while (true)
-    {
-        if (token.IsCancellationRequested)
-        {
-            await Task.Delay(2000);
-            tokenSource.Dispose();
-            tokenSource = new CancellationTokenSource();
-            token = tokenSource.Token;
-            await Task.Delay(4000);
-            RunChecks();
-        }
-        else
-        {
-            continue;
-        }
-
-    }
-        mutex.ReleaseMutex();
+    mutex.ReleaseMutex();
 }

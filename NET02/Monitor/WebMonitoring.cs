@@ -1,43 +1,31 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.Configuration;
-using log4net;
-using System.Xml.Linq;
+﻿using log4net;
 
 namespace Monitor
 {
-    public class WebMonitoring
+    public class WebMonitoring : IDisposable  
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(WebMonitoring));
         public TimeSpan CheckInterval { get; set; }
-        public TimeSpan ResponseTime { get; set; }
         public string? Site { get; set; }
         public string? Title { get; set; }
         public string? Email { get; set; }
-        public HttpClient? Client { get; set; }
-
+        public HttpClient Client { get; set; } = new HttpClient();
 
         public WebMonitoring(string checkInterval, string responseTime, string site, string email, string title)
         {
             CheckInterval = TimeSpan.Parse(checkInterval);
-            ResponseTime = TimeSpan.Parse(responseTime);
             Site = site;
             Email = email;
             Title = title;
+
+            Client.Timeout = TimeSpan.Parse(responseTime);
         }
 
         public async Task OnTimedEvent()
         {
             try
             {
-                Client = new HttpClient();
-
-                Client.Timeout = TimeSpan.FromSeconds(2);
-
-                HttpResponseMessage response = new HttpResponseMessage();
-
-                response = await Client.GetAsync(Site);
+                HttpResponseMessage response = await Client.GetAsync(Site);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -48,31 +36,20 @@ namespace Monitor
             {
                 await SendEmail();
             }
-            finally
+            catch (Exception ex)
             {
-                Client?.Dispose();
+                log.Error(ex);
             }
         }
 
-        //public async Task CheckStatus(bool webResponse)
-        //{
-        //    if (webResponse)
-        //    {
-        //        log.Error(Title);
-        //    }
-        //    else
-        //    {
-        //        await SendEmail();
-        //    }
-        //}
-
         public async Task SendEmail()
         {
-           // await Mail.SendMessage();
-            await Task.Delay(100);
-            Console.WriteLine("we are on the SendEmail");
-            Console.WriteLine(Title);
+            await Mail.SendMessage(Email);
         }
 
+        public void Dispose()
+        {
+            Client.Dispose();
+        }
     }
 }
