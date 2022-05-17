@@ -5,20 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sensors"
         mc:Ignorable="d"
-        Title="Sensors" Height="250" Width="500">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="40"/>
-        </Grid.ColumnDefinitions>
+        Title="Sensors" Height="350" Width="500">
+    <Grid Background="LightGray">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
+        <ContentControl Content="{Binding SelectedViewModel}"/>
+
+        <!--
+        <StackPanel Grid.Column="0" Grid.Row="0"  Orientation="Horizontal" HorizontalAlignment="Center"  >
+            <TextBlock FontSize="18" Foreground="DarkBlue" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"> 
+                Amazing Sensor Watcher
+            </TextBlock>
+        </StackPanel>-->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Width="200" Content="Home" Command="{Binding UpdateViewComand}" CommandParameter="Home" />
+            <Button Width="200" Content="Create Sensor" Command="{Binding UpdateViewComand}" CommandParameter="NewSensor"/>
+        </StackPanel>
     </Grid>
 </Window>

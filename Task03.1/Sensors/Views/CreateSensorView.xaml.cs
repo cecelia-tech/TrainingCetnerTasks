@@ -1,5 +1,4 @@
-﻿using Sensors.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,19 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sensors
+namespace Sensors.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CreateSensor.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CreateSensor : UserControl
     {
-        public MainWindow()
+        public CreateSensor()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
         }
-
         
     }
 }
