@@ -1,20 +1,8 @@
-
-
 namespace TestSeleniumMail;
 
 [TestClass]
-public class InboxTest
+public class InboxTest : TestBaseClass
 {
-    IWebDriver _driver;
-
-    [TestInitialize]
-    public void SetUp()
-    {
-        _driver = new ChromeDriver();
-        _driver.Url = "https://www.inbox.lt/";
-        _driver.Manage().Window.Maximize();
-    }
-    
     [TestMethod]
     public void TestSignInPage()
     {
@@ -26,16 +14,9 @@ public class InboxTest
         newEmail.SetSendTo();
         newEmail.SetSubject();
         newEmail.SetMessageContent();
-        
         newEmail.PressSend();
         Thread.Sleep(1000);
         Assert.IsTrue(newEmail.CheckIfEmailSent());
     }
 
-    [TestCleanup]
-    public void CleanUp()
-    {
-        _driver.Close();
-        _driver.Dispose();
-    }
 }
