@@ -9,7 +9,9 @@ namespace SeleniumMail.Gmail
 {
     internal class GmailFrontPage : BaseClass
     {
-        const string SINGIN_BUTTON_LOCATOR = "//a[contains(@*, 'sign in')]";
+        const string SINGIN_BUTTON_LOCATOR = "//a[text()='Sign in']";
+
+        //<a class="button
 
         public GmailFrontPage(IWebDriver driver) : base(driver)
         {

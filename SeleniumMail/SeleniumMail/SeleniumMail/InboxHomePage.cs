@@ -14,4 +14,9 @@ internal class InboxHomePage : BaseClass
     {
         GetElementByXPath(NEW_EMAIL_LOCATOR).Click();
     }
+
+    public void CheckReceivedEmail()
+    {
+        GetElementByXPath(NEW_EMAIL_LOCATOR).Click();
+    }
 }
