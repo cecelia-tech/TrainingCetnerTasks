@@ -18,6 +18,7 @@ public class InboxTest : TestBaseClass
         newEmail.PressSend();
         Thread.Sleep(2000);
         Assert.IsTrue(newEmail.CheckIfEmailSent());
+        newEmail.SignOut();
     }
 
     [TestMethod]
@@ -39,6 +40,12 @@ public class InboxTest : TestBaseClass
         Thread.Sleep(1000);
         InboxReceivedEmail inboxReceivedEmail = new InboxReceivedEmail(_driver);
         inboxReceivedEmail.ClickReceivedEmail();
-
+        ReceivedEmailPage receivedEmailPage = new ReceivedEmailPage(_driver);
+        receivedEmailPage.PressReply();
+        ReplyEmailPage replyEmailPage = new ReplyEmailPage(_driver);
+        replyEmailPage.SetMessageContent(replyEmailPage.REPLY_MESSAGE);
+        replyEmailPage.PressSend();
+        Thread.Sleep(1000);
+        replyEmailPage.SignOut();
     }
 }

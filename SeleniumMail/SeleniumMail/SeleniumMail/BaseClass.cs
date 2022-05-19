@@ -12,6 +12,8 @@ internal abstract class BaseClass
     protected const string EMAIL_INPUT_LOCATOR = "//*[@id='imapuser']";
     protected const string PASSWORD_INPUT_LOCATOR = "//*[@id='pass']";
     protected const string SIGNIN_BUTTON_NEXT_LOCATOR = "//*[@id='btn_sign-in']";
+    protected const string SIGNOUT_BUTTON_LOCATOR = "//*[@id='side-trigger']";
+    private const string SIGNOUT2_BUTTON_LOCATOR = "//a[@title='Išeiti']";
 
     internal IWebDriver _driver;
     
@@ -68,6 +70,11 @@ internal abstract class BaseClass
         GetElementByXPath(SIGNIN_BUTTON_NEXT_LOCATOR).Click();
     }
 
+    public void SignOut()
+    {
+        GetElementByXPath(SIGNOUT_BUTTON_LOCATOR).Click();
+        GetElementByXPath(SIGNOUT2_BUTTON_LOCATOR).Click();
+    }
     public IWebElement GetElementByXPath(string path)
     {
         IWebElement? webElement = null;

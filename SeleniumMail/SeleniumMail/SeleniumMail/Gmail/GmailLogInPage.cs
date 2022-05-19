@@ -7,7 +7,7 @@ internal class GmailLogInPage : BaseClass
 
 
 
-    const string EMAIL_INPUT_LOCATOR = "//input[@type='email']";
+    const string EMAIL_INPUT_LOCATOR3 = "//input[@type='email']";
     const string EMAIL = "jcecelia72@gmail.com";
     const string BACKUP_EMAIL = "cecelia@inbox.lt";
     const string PASSWORD = "KadIrKas_Bebutu63!";
