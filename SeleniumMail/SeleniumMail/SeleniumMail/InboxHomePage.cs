@@ -4,7 +4,8 @@ namespace SeleniumMail;
 
 internal class InboxHomePage : BaseClass
 {
-    const string NEW_EMAIL_LOCATOR = "//*[@id='mail-menu_li_compose']/a";
+    internal const string NEW_EMAIL_LOCATOR = "//*[@id='mail-menu_li_compose']/a";
+    internal const string RECEIVED_EMAIL_LOCATOR = "//span[@title='cecelia@inbox.lt']";
 
     public InboxHomePage(IWebDriver driver) : base(driver)
     {
@@ -15,8 +16,15 @@ internal class InboxHomePage : BaseClass
         GetElementByXPath(NEW_EMAIL_LOCATOR).Click();
     }
 
-    public void CheckReceivedEmail()
+    public bool CheckIfEmailReceived()
     {
-        GetElementByXPath(NEW_EMAIL_LOCATOR).Click();
+        GetElementByXPath(RECEIVED_EMAIL_LOCATOR);
+
+        return true;
+    }
+
+    public void ClickReceivedEmail()
+    {
+        GetElementByXPath(RECEIVED_EMAIL_LOCATOR).Click();
     }
 }

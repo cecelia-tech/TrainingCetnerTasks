@@ -13,23 +13,30 @@ public class InboxTest : TestBaseClass
 
         InboxHomePage homepage = new InboxHomePage(_driver);
         homepage.PressNewEmail();
-        InboxNewEmail newEmail = new InboxNewEmail(_driver);
-        newEmail.SetSendTo(newEmail.SEND_TO_EMAIL);
-        newEmail.SetSubject(newEmail.EMAIL_SUBJECT);
-        newEmail.SetMessageContent(newEmail.EMAIL_BODY);
+
+        NewEmail newEmail = new NewEmail(_driver);
+        string sendToEmail = "automationtest@inbox.lt";
+        string emailSubject = "Test";
+        string emailBody = "Sending a test email";
+        newEmail.SetSendTo(sendToEmail);
+        newEmail.SetSubject(emailSubject);
+        newEmail.SetMessageContent(emailBody);
         newEmail.PressSend();
-        Thread.Sleep(2000);
+
         Assert.IsTrue(newEmail.CheckIfEmailSent());
+
         newEmail.SignOut();
     }
 
     [TestMethod]
     public void TestReceivedEmail()
     {
-        ReceivedEmailSignInPage signInpage = new ReceivedEmailSignInPage(_driver);
-      //  signInpage.SignIn(signInpage.EMAIL, signInpage.PASSWORD);
+        SignInPage signInpage = new SignInPage(_driver);
+        string email = "automationtest@inbox.lt";
+        string password = "automationtest954!";
+        signInpage.SignIn(email, password);
         Thread.Sleep(1000);
-        InboxReceivedEmail inboxReceivedEmail = new InboxReceivedEmail(_driver);
+        InboxHomePage inboxReceivedEmail = new InboxHomePage(_driver);
 
         Assert.IsTrue(inboxReceivedEmail.CheckIfEmailReceived());
     }
@@ -43,13 +50,13 @@ public class InboxTest : TestBaseClass
         signInpage.SignIn(email, password);
 
         Thread.Sleep(1000);
-        InboxReceivedEmail inboxReceivedEmail = new InboxReceivedEmail(_driver);
+        InboxHomePage inboxReceivedEmail = new InboxHomePage(_driver);
         inboxReceivedEmail.ClickReceivedEmail();
         ReceivedEmailPage receivedEmailPage = new ReceivedEmailPage(_driver);
         receivedEmailPage.PressReply();
         ReplyEmailPage replyEmailPage = new ReplyEmailPage(_driver);
-        replyEmailPage.SetMessageContent(replyEmailPage.REPLY_MESSAGE);
-        replyEmailPage.PressSend();
+        //replyEmailPage.SetMessageContent(replyEmailPage.REPLY_MESSAGE);
+        //replyEmailPage.PressSend();
         Thread.Sleep(1000);
         replyEmailPage.SignOut();
     }

@@ -4,8 +4,9 @@ namespace SeleniumMail;
 
 internal class SignInPage : BaseClass
 {
-    protected const string PASSWORD_INPUT_LOCATOR = "//*[@id='pass']";
-    protected const string EMAIL_INPUT_LOCATOR = "//*[@id='imapuser']";
+    const string PASSWORD_INPUT_LOCATOR = "//*[@id='pass']";
+    const string EMAIL_INPUT_LOCATOR = "//*[@id='imapuser']";
+    const string SIGNIN_BUTTON_LOCATOR = "//*[@id='btn_sign-in']";
 
     public SignInPage(IWebDriver driver) : base(driver)
     {
@@ -19,7 +20,7 @@ internal class SignInPage : BaseClass
         var passwordInput = GetElementByXPath(PASSWORD_INPUT_LOCATOR);
         passwordInput.Clear();
         passwordInput.SendKeys(password);
-        GetElementByXPath(SIGNIN_BUTTON_NEXT_LOCATOR).Click();
+        GetElementByXPath(SIGNIN_BUTTON_LOCATOR).Click();
     }
 }
  
