@@ -1,6 +1,4 @@
-﻿using OpenQA.Selenium;
-
-namespace SeleniumMail;
+﻿namespace SeleniumMail;
 
 internal abstract class BaseClass
 {
@@ -14,12 +12,12 @@ internal abstract class BaseClass
         _driver = driver;
     }
 
-    public void SignOut()
+    protected internal void SignOut()
     {
         GetElementByXPath(SIGNOUT_BUTTON_LOCATOR).Click();
         GetElementByXPath(SIGNOUT2_BUTTON_LOCATOR).Click();
     }
-    public IWebElement GetElementByXPath(string path)
+    protected internal IWebElement GetElementByXPath(string path)
     {
         IWebElement? webElement = null;
 
@@ -37,7 +35,7 @@ internal abstract class BaseClass
         return webElement;
     }
 
-    public IWebElement GetElementById(string id)
+    protected internal IWebElement GetElementById(string id)
     {
         IWebElement? webElement = null;
 

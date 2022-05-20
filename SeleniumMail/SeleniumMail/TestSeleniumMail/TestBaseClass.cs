@@ -13,7 +13,6 @@ public class TestBaseClass
         _driver.Manage().Window.Maximize();
     }
 
-
     [TestCleanup]
     public void CleanUp()
     {

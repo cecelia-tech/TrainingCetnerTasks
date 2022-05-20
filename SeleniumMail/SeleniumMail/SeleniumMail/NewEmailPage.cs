@@ -1,8 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿namespace SeleniumMail;
 
-namespace SeleniumMail;
-
-internal class NewEmail : BaseClass
+internal class NewEmailPage : BaseClass
 {
     const string SEND_TO_LOCATOR = "suggest-to";
     const string SUBJECT_LOCATOR = "//*[@id='subject']";
@@ -11,25 +9,25 @@ internal class NewEmail : BaseClass
     const string SEND_BUTTON_LOCATOR = "//button[.//span[@class='inner-text']]";
     const string EMAIL_SENT_ALERT = "//div[contains(., 'sėkmingai išsiųstas')]";
 
-    public NewEmail(IWebDriver driver) : base(driver)
+    public NewEmailPage(IWebDriver driver) : base(driver)
     {
     }
 
-    public virtual void SetSendTo(string email)
+    internal virtual void SetSendTo(string email)
     {
         var sendToInput = GetElementById(SEND_TO_LOCATOR);
         sendToInput.Clear();
         sendToInput.SendKeys(email);
     }
 
-    public void SetSubject(string subject)
+    internal void SetSubject(string subject)
     {
         var subjectInput = GetElementByXPath(SUBJECT_LOCATOR);
         subjectInput.Clear();
         subjectInput.SendKeys(subject);
     }
 
-    public void SetMessageContent(string emailBody)
+    internal void SetMessageContent(string emailBody)
     {
         var emailInput = GetElementByXPath(EMAIL_BODY_LOCATOR);
         _driver.SwitchTo().Frame(emailInput);
@@ -38,7 +36,7 @@ internal class NewEmail : BaseClass
         _driver.SwitchTo().DefaultContent();
     }
 
-    public void PressSend()
+    internal void PressSend()
     {
         GetElementByXPath(SEND_BUTTON_LOCATOR).Click();
     }

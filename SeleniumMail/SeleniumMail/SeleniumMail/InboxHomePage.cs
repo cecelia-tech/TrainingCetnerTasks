@@ -1,29 +1,27 @@
-﻿using OpenQA.Selenium;
-
-namespace SeleniumMail;
+﻿namespace SeleniumMail;
 
 internal class InboxHomePage : BaseClass
 {
-    internal const string NEW_EMAIL_LOCATOR = "//*[@id='mail-menu_li_compose']/a";
-    internal const string RECEIVED_EMAIL_LOCATOR = "//span[@title='Test']";
+    const string NEW_EMAIL_LOCATOR = "//*[@id='mail-menu_li_compose']/a";
+    const string RECEIVED_EMAIL_LOCATOR = "//span[@title='Test']";
 
     public InboxHomePage(IWebDriver driver) : base(driver)
     {
     }
 
-    public void PressNewEmail()
+    internal void PressNewEmail()
     {
         GetElementByXPath(NEW_EMAIL_LOCATOR).Click();
     }
 
-    public bool CheckIfEmailReceived()
+    internal bool CheckIfEmailReceived()
     {
         GetElementByXPath(RECEIVED_EMAIL_LOCATOR);
 
         return true;
     }
 
-    public void ClickReceivedEmail()
+    internal void ClickReceivedEmail()
     {
         GetElementByXPath(RECEIVED_EMAIL_LOCATOR).Click();
     }

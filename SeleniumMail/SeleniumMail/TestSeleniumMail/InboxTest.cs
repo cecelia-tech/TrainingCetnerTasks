@@ -14,7 +14,7 @@ public class InboxTest : TestBaseClass
         InboxHomePage homepage = new InboxHomePage(_driver);
         homepage.PressNewEmail();
 
-        NewEmail newEmail = new NewEmail(_driver);
+        NewEmailPage newEmail = new NewEmailPage(_driver);
         string sendToEmail = "automationtest@inbox.lt";
         string emailSubject = "Test";
         string emailContent = "Sending a test email";
@@ -55,7 +55,7 @@ public class InboxTest : TestBaseClass
         ReceivedEmailPage receivedEmailPage = new ReceivedEmailPage(_driver);
         receivedEmailPage.PressReply();
 
-        NewEmail replyEmailPage = new NewEmail(_driver);
+        NewEmailPage replyEmailPage = new NewEmailPage(_driver);
         string replyEmailContent = "Replying to a test email.";
         replyEmailPage.SetMessageContent(replyEmailContent);
         replyEmailPage.PressSend();

@@ -1,6 +1,4 @@
-﻿using OpenQA.Selenium;
-
-namespace SeleniumMail;
+﻿namespace SeleniumMail;
 
 internal class SignInPage : BaseClass
 {
@@ -12,7 +10,7 @@ internal class SignInPage : BaseClass
     {
     }
 
-    public void SignIn(string email, string password)
+    internal void SignIn(string email, string password)
     {
         var emailInput = GetElementByXPath(EMAIL_INPUT_LOCATOR);
         emailInput.Clear();
