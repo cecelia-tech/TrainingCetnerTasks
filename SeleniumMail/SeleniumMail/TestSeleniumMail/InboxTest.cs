@@ -1,4 +1,3 @@
-
 namespace TestSeleniumMail;
 
 [TestClass]
@@ -7,8 +6,11 @@ public class InboxTest : TestBaseClass
     [TestMethod]
     public void TestNewEmail()
     {
-        InboxSendEmailSignInPage signInpage = new InboxSendEmailSignInPage(_driver);
-        signInpage.SignIn(signInpage.EMAIL, signInpage.PASSWORD);
+        SignInPage signInpage = new SignInPage(_driver);
+        string email = "cecelia@inbox.lt";
+        string password = "piXmur-2wynno-potfoq";
+        signInpage.SignIn(email, password);
+
         InboxHomePage homepage = new InboxHomePage(_driver);
         homepage.PressNewEmail();
         InboxNewEmail newEmail = new InboxNewEmail(_driver);
@@ -25,7 +27,7 @@ public class InboxTest : TestBaseClass
     public void TestReceivedEmail()
     {
         ReceivedEmailSignInPage signInpage = new ReceivedEmailSignInPage(_driver);
-        signInpage.SignIn(signInpage.EMAIL, signInpage.PASSWORD);
+      //  signInpage.SignIn(signInpage.EMAIL, signInpage.PASSWORD);
         Thread.Sleep(1000);
         InboxReceivedEmail inboxReceivedEmail = new InboxReceivedEmail(_driver);
 
@@ -35,8 +37,11 @@ public class InboxTest : TestBaseClass
     [TestMethod]
     public void TestReplyReceivedEmail()
     {
-        ReceivedEmailSignInPage signInpage = new ReceivedEmailSignInPage(_driver);
-        signInpage.SignIn(signInpage.EMAIL, signInpage.PASSWORD);
+        SignInPage signInpage = new SignInPage(_driver);
+        string email = "automationtest@inbox.lt";
+        string password = "automationtest954!";
+        signInpage.SignIn(email, password);
+
         Thread.Sleep(1000);
         InboxReceivedEmail inboxReceivedEmail = new InboxReceivedEmail(_driver);
         inboxReceivedEmail.ClickReceivedEmail();
