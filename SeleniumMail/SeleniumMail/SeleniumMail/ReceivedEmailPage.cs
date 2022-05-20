@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace SeleniumMail.ReceivedEmail;
+namespace SeleniumMail;
 
 internal class ReceivedEmailPage : BaseClass
 {

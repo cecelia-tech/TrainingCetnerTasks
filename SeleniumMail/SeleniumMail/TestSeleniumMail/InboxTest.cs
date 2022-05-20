@@ -17,10 +17,10 @@ public class InboxTest : TestBaseClass
         NewEmail newEmail = new NewEmail(_driver);
         string sendToEmail = "automationtest@inbox.lt";
         string emailSubject = "Test";
-        string emailBody = "Sending a test email";
+        string emailContent = "Sending a test email";
         newEmail.SetSendTo(sendToEmail);
         newEmail.SetSubject(emailSubject);
-        newEmail.SetMessageContent(emailBody);
+        newEmail.SetMessageContent(emailContent);
         newEmail.PressSend();
 
         Assert.IsTrue(newEmail.CheckIfEmailSent());
@@ -49,15 +49,19 @@ public class InboxTest : TestBaseClass
         string password = "automationtest954!";
         signInpage.SignIn(email, password);
 
-        Thread.Sleep(1000);
         InboxHomePage inboxReceivedEmail = new InboxHomePage(_driver);
         inboxReceivedEmail.ClickReceivedEmail();
+
         ReceivedEmailPage receivedEmailPage = new ReceivedEmailPage(_driver);
         receivedEmailPage.PressReply();
-        ReplyEmailPage replyEmailPage = new ReplyEmailPage(_driver);
-        //replyEmailPage.SetMessageContent(replyEmailPage.REPLY_MESSAGE);
-        //replyEmailPage.PressSend();
-        Thread.Sleep(1000);
+
+        NewEmail replyEmailPage = new NewEmail(_driver);
+        string replyEmailContent = "Replying to a test email.";
+        replyEmailPage.SetMessageContent(replyEmailContent);
+        replyEmailPage.PressSend();
+
+        Assert.IsTrue( replyEmailPage.CheckIfEmailSent());
+
         replyEmailPage.SignOut();
     }
 }
