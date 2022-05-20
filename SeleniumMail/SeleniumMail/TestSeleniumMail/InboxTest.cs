@@ -35,7 +35,7 @@ public class InboxTest : TestBaseClass
         string email = "automationtest@inbox.lt";
         string password = "automationtest954!";
         signInpage.SignIn(email, password);
-        Thread.Sleep(1000);
+
         InboxHomePage inboxReceivedEmail = new InboxHomePage(_driver);
 
         Assert.IsTrue(inboxReceivedEmail.CheckIfEmailReceived());

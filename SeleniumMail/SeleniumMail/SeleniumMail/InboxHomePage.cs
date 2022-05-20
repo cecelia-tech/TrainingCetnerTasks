@@ -5,7 +5,7 @@ namespace SeleniumMail;
 internal class InboxHomePage : BaseClass
 {
     internal const string NEW_EMAIL_LOCATOR = "//*[@id='mail-menu_li_compose']/a";
-    internal const string RECEIVED_EMAIL_LOCATOR = "//span[@title='cecelia@inbox.lt']";
+    internal const string RECEIVED_EMAIL_LOCATOR = "//span[@title='Test']";
 
     public InboxHomePage(IWebDriver driver) : base(driver)
     {
